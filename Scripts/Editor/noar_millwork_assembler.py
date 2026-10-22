@@ -1,151 +1,217 @@
 """
 noar_millwork_assembler.py - EUW_MillworkAssembler as a script (Standard v1.1, section 3 step 3).
 
-After importing one room's FBX as separate SM_* meshes with correct pivots, this places the
-interactive actors so nobody wires 100 cabinets by hand:
+Places every mesh of one room export at its real world transform and wraps the moving parts in the right
+BP_Interactive* / ANOARInteractive* actor, so nobody wires 100 cabinets by hand.
+
+Source of truth for transforms is the `placement.json` written next to the FBX by
+Scripts/Geometry/build_*.py (UE's static-mesh import discards the FBX node transforms, so every mesh
+is imported at its pivot = local origin and the actor is placed here):
 
     import noar_millwork_assembler as asm
-    asm.assemble("/Game/Apartments/DEMPSTER/Millwork/Interactive", apt="DEM", room="KIT")
+    asm.assemble("/Game/Apartments/DEMPSTER/Millwork", "/Users/<you>/.../Export/Dempster/placement.json", apt="DEM")
 
-For every mesh whose PART is a moving part it spawns the matching BP_Interactive* actor
-(class map in noar_naming.bp_class_for_part), names the actor like the mesh without SM_,
-assigns the mesh to the actor's `DoorMesh` / `DrawerMesh` / `FlapMesh` component by convention,
-sets HingeSide from _L/_R, and places it at the mesh's import transform (FBX world origin =
-apartment origin at door D.01, so the actor transform is the pivot's world transform stored in the
-mesh's import data; if your DCC baked transforms into vertices instead, place at identity).
+placement.json per object:
+    "SM_DEM_KIT_T01_DOOR_01_L": {"mechanism": "HingedDoor", "open_angle": 105, "hinge": "L", "opens_inward": false,
+                                 "location": [63.5, 150.0, 10.0], "yaw": 0.0, "collection": "Millwork", "materials": ["FRONT", ...]}
+mechanisms: Static | HingedDoor | Drawer | FlapUp | FlapDown | SlidingDoor | Pocket | Light | Switch
 
-Static parts (CARC, SHELF, TOP, INT, FRAME) are placed as plain StaticMeshActors.
-LED parts become BP_InteractiveLight with LightGroupTag = LightGroup.<Room>.Cabinet.
-
-Dependencies (RequiredOpen) are inferred: a TRAY inside unit B03 requires DRW_01 of B03 to be open;
-anything with PART=INT is static. BlockedBy pairs are left for the swept-box pass (todo in v1.1).
-
-Re-running is safe: an actor whose name already exists in the level is updated, not duplicated.
+Class per mechanism: a Blueprint if it exists (BP_Interactive<Mechanism> in CLASS_ROOT), otherwise the C++ class.
+Re-running is safe: an actor whose label already exists is updated in place, not duplicated.
 """
+import json
+import os
 import unreal
-import noar_naming as nn
 
+CLASS_ROOT = "/Game/NOAR/Blueprints/Interactive"
+BP_BY_MECH = {
+    "HingedDoor": ("BP_InteractiveDoor", "NOARInteractiveDoor"),
+    "Drawer": ("BP_InteractiveDrawer", "NOARInteractiveDrawer"),
+    "FlapUp": ("BP_InteractiveFlap", "NOARInteractiveFlap"),
+    "FlapDown": ("BP_InteractiveFlap", "NOARInteractiveFlap"),
+    "SlidingDoor": ("BP_InteractiveSlidingDoor", "NOARInteractiveSlidingDoor"),
+    "Pocket": ("BP_InteractivePocket", "NOARInteractivePocket"),
+    "Light": ("BP_InteractiveLight_LED", "NOARInteractiveLight"),
+    "Switch": ("BP_LightSwitch", "NOARLightSwitch"),
+}
+MESH_COMPONENT = {"HingedDoor": "MovingMesh", "Drawer": "MovingMesh", "FlapUp": "MovingMesh", "FlapDown": "MovingMesh",
+                  "SlidingDoor": "MovingMesh", "Pocket": "MovingMesh", "Light": "StripMesh", "Switch": "MovingMesh"}
 ROOM_TO_ZONE = {"FOY": "Foyer", "KIT": "Kitchen", "DIN": "Dining", "LIV": "Living", "PBR": "Primary", "WIC": "WIC",
                 "PEN": "Ensuite", "GBR": "Guest", "GEN": "Guest", "DEN": "Den", "PWD": "Powder", "LAU": "Laundry",
-                "BAL": "Balcony", "HAL": "Foyer", "MEC": "Laundry"}
+                "BAL": "Balcony", "HAL": "Foyer", "MEC": "Laundry", "ARCH": "Kitchen"}
 
 asset_reg = unreal.AssetRegistryHelpers.get_asset_registry()
 actor_sub = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
+_actor_cache = None
 
 
-def _existing_actor(label: str):
-    for a in actor_sub.get_all_level_actors():
-        if a.get_actor_label() == label:
-            return a
-    return None
+def _existing_actor(label):
+    global _actor_cache
+    if _actor_cache is None:
+        _actor_cache = {a.get_actor_label(): a for a in actor_sub.get_all_level_actors()}
+    return _actor_cache.get(label)
 
 
-def _mesh_component_name(part: str) -> str:
-    return {"DOOR": "DoorMesh", "DRW": "DrawerMesh", "TRAY": "DrawerMesh", "FLAP": "FlapMesh", "BED": "FlapMesh",
-            "SLIDE": "DoorMesh", "POCKET": "DoorMesh", "LED": "StripMesh"}.get(part, "StaticMesh")
-
-
-def _set_if_exists(obj, prop, value):
+def _set(obj, prop, value):
     try:
         obj.set_editor_property(prop, value)
-    except Exception:
-        unreal.log_warning(f"[NOAR] {obj.get_name()} has no property {prop}")
+        return True
+    except Exception as e:  # noqa
+        unreal.log_warning(f"[NOAR] {obj.get_name()}: cannot set {prop}: {e}")
+        return False
 
 
-def assemble(content_path: str, apt: str, room: str, place_statics: bool = True):
-    assets = asset_reg.get_assets_by_path(content_path, recursive=True)
-    meshes = [a for a in assets if a.asset_class_path.asset_name == "StaticMesh"]
-    prefix = f"SM_{apt}_{room}_"
-    spawned, updated = 0, 0
-    by_name = {}
+def _class_for(mech):
+    bp, cpp = BP_BY_MECH[mech]
+    bp_path = f"{CLASS_ROOT}/{bp}.{bp}_C"
+    if unreal.EditorAssetLibrary.does_asset_exist(f"{CLASS_ROOT}/{bp}"):
+        c = unreal.load_class(None, bp_path)
+        if c:
+            return c
+    return unreal.load_class(None, f"/Script/NOARCore.{cpp}")
 
-    for a in meshes:
-        name = str(a.asset_name)
-        if not name.startswith(prefix):
+
+def _find_meshes(content_path):
+    out = {}
+    for a in asset_reg.get_assets_by_path(content_path, recursive=True):
+        if a.asset_class_path.asset_name == "StaticMesh":
+            out[str(a.asset_name)] = a
+    return out
+
+
+def _transform(entry):
+    loc = entry.get("location", [0, 0, 0])
+    return unreal.Transform(unreal.Vector(*loc), unreal.Rotator(0.0, entry.get("yaw", 0.0), 0.0), unreal.Vector(1, 1, 1))
+
+
+def _room_of(name):
+    parts = name.split("_")
+    return parts[2] if len(parts) > 2 else "KIT"
+
+
+def _unit_of(name):
+    """SM_DEM_KIT_T01_DOOR_01_L -> DEM_KIT_T01"""
+    parts = name.split("_")
+    return "_".join(parts[1:4]) if len(parts) > 4 else None
+
+
+def assemble(content_path, placement_json, apt="DEM", rooms=None, place_statics=True):
+    global _actor_cache
+    _actor_cache = None
+    with open(placement_json, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    objects = data["objects"]
+    meshes = _find_meshes(content_path)
+    spawned = updated = missing = 0
+    actors = {}
+
+    for name, entry in objects.items():
+        if not name.startswith(f"SM_{apt}_"):
             continue
-        parsed = nn.parse(name)
-        if not parsed:
-            unreal.log_warning(f"[NOAR] skip {name}: bad name")
+        room = _room_of(name)
+        if rooms and room not in rooms:
             continue
-        part = parsed["part"]
-        mesh = a.get_asset()
-        label = nn.actor_name(name)
-        bp_path = nn.bp_class_for_part(part)
+        mesh_asset = meshes.get(name)
+        if not mesh_asset:
+            missing += 1
+            unreal.log_warning(f"[NOAR] mesh not imported: {name}")
+            continue
+        mesh = mesh_asset.get_asset()
+        label = name[3:]
+        mech = entry.get("mechanism", "Static")
+        xf = _transform(entry)
 
-        if not bp_path:
+        if mech == "Static":
             if not place_statics:
                 continue
             actor = _existing_actor(label)
             if not actor:
-                actor = actor_sub.spawn_actor_from_object(mesh, unreal.Vector(0, 0, 0))
+                actor = actor_sub.spawn_actor_from_object(mesh, xf.translation, xf.rotation.rotator())
                 actor.set_actor_label(label)
                 spawned += 1
             else:
+                actor.set_actor_transform(xf, False, False)
                 updated += 1
             actor.set_mobility(unreal.ComponentMobility.STATIC)
-            by_name[label] = actor
+            actors[label] = (actor, entry)
             continue
 
-        bp_class = unreal.EditorAssetLibrary.load_blueprint_class(bp_path.rsplit(".", 1)[0])
-        if not bp_class:
-            unreal.log_error(f"[NOAR] blueprint not found: {bp_path}")
+        cls = _class_for(mech)
+        if not cls:
+            unreal.log_error(f"[NOAR] no class for {mech} ({name})")
             continue
-
         actor = _existing_actor(label)
         if not actor:
-            actor = actor_sub.spawn_actor_from_class(bp_class, unreal.Vector(0, 0, 0))
+            actor = actor_sub.spawn_actor_from_class(cls, xf.translation, xf.rotation.rotator())
             actor.set_actor_label(label)
             spawned += 1
         else:
+            actor.set_actor_transform(xf, False, False)
             updated += 1
 
-        # assign mesh to the conventional component
-        comp_name = _mesh_component_name(part)
-        comp = None
-        for c in actor.get_components_by_class(unreal.StaticMeshComponent):
-            if c.get_name() == comp_name:
-                comp = c
-                break
+        comp_name = MESH_COMPONENT[mech]
+        comp = next((c for c in actor.get_components_by_class(unreal.StaticMeshComponent) if c.get_name() == comp_name), None)
         if comp:
             comp.set_static_mesh(mesh)
         else:
-            unreal.log_warning(f"[NOAR] {label}: component {comp_name} not found on {bp_class.get_name()}")
+            unreal.log_warning(f"[NOAR] {label}: component {comp_name} not found on {cls.get_name()}")
 
-        # parameters from the name
-        if part == "DOOR":
-            side = parsed.get("side")
-            if side in ("L", "R"):
-                _set_if_exists(actor, "HingeSide", unreal.ENOARHingeSide.LEFT if side == "L" else unreal.ENOARHingeSide.RIGHT)
-        if part in ("DRW", "TRAY"):
-            mn, mx = mesh.get_bounding_box().min, mesh.get_bounding_box().max
-            _set_if_exists(actor, "TravelDistance", max(0.0, (mx.x - mn.x) - 2.0))
-        if part == "LED":
-            tag = unreal.GameplayTag(tag_name=f"LightGroup.{ROOM_TO_ZONE.get(room, room)}.Cabinet")
-            _set_if_exists(actor, "LightGroupTag", tag)
+        if mech == "HingedDoor":
+            _set(actor, "open_angle", float(entry.get("open_angle", 105)))
+            _set(actor, "hinge_side", unreal.ENOARHingeSide.LEFT if entry.get("hinge", "L") == "L" else unreal.ENOARHingeSide.RIGHT)
+            _set(actor, "opens_inward", bool(entry.get("opens_inward", False)))
+        elif mech == "Drawer":
+            _set(actor, "travel_distance", float(entry.get("travel", 0.0)))
+        elif mech in ("FlapUp", "FlapDown"):
+            _set(actor, "mode", unreal.ENOARFlapMode.LIFT_UP if mech == "FlapUp" else unreal.ENOARFlapMode.DROP_DOWN)
+            _set(actor, "open_angle", float(entry.get("open_angle", 90)))
+        elif mech == "SlidingDoor":
+            _set(actor, "travel_distance", float(entry.get("travel", 0.0)))
+        elif mech == "Light":
+            _set(actor, "light_group_tag", unreal.GameplayTag(tag_name=entry.get("group", f"LightGroup.{ROOM_TO_ZONE.get(room, room)}.Cabinet")))
+            _set(actor, "lumens", float(entry.get("lumens", 300)))
+            _set(actor, "kelvin", float(entry.get("kelvin", 3000)))
+        elif mech == "Switch":
+            _set(actor, "light_group_tags", [unreal.GameplayTag(tag_name=t) for t in entry.get("groups", [])])
+            plate = entry.get("plate")
+            if plate and plate in meshes:
+                pc = next((c for c in actor.get_components_by_class(unreal.StaticMeshComponent) if c.get_name() == "PlateMesh"), None)
+                if pc:
+                    pc.set_static_mesh(meshes[plate].get_asset())
 
-        _set_if_exists(actor, "SaveKey", label)
-        _set_if_exists(actor, "ZoneTag", unreal.GameplayTag(tag_name=f"Zone.{ROOM_TO_ZONE.get(room, room)}"))
-        by_name[label] = actor
+        if mech not in ("Light", "Switch"):
+            _set(actor, "save_key", label)
+            _set(actor, "zone_tag", unreal.GameplayTag(tag_name=f"Zone.{ROOM_TO_ZONE.get(room, room)}"))
+            _set(actor, "blocks_pawn_when_closed", bool(entry.get("blocks_pawn", False)))
+        actors[label] = (actor, entry)
 
-    # dependencies: TRAY_nn inside unit requires DRW_nn (same index) or DRW_01
-    for label, actor in by_name.items():
-        parsed = nn.parse("SM_" + label)
-        if parsed and parsed["part"] == "TRAY":
-            unit = f"{apt}_{room}_{parsed['unit']}"
-            idx = parsed.get("index") or "01"
-            parent = by_name.get(f"{unit}_DRW_{idx}") or by_name.get(f"{unit}_DRW_01")
-            if parent:
-                _set_if_exists(actor, "RequiredOpen", [parent])
-            # inner LED turns on with the outer part
-        if parsed and parsed["part"] == "LED":
-            unit = f"{apt}_{room}_{parsed['unit']}"
-            outer = [a for l, a in by_name.items() if l.startswith(unit + "_DOOR") or l.startswith(unit + "_DRW_01")]
-            for o in outer:
-                _set_if_exists(o, "LinkedLight", actor)
+    # dependencies declared in placement.json ("requires": ["SM_..."]) + LED <-> outer part linking by unit
+    for label, (actor, entry) in actors.items():
+        req = [actors[r[3:]][0] for r in entry.get("requires", []) if r[3:] in actors]
+        if req:
+            _set(actor, "required_open", req)
+        if entry.get("mechanism") == "Light" and entry.get("link_to_doors", False):
+            unit = _unit_of("SM_" + label)
+            if unit:
+                for l2, (a2, e2) in actors.items():
+                    if l2.startswith(unit + "_DOOR") and e2.get("mechanism") == "HingedDoor":
+                        _set(a2, "linked_light", actor)
 
-    unreal.log(f"[NOAR] assembled {room}: {spawned} spawned, {updated} updated")
-    return by_name
+    # configurable surfaces: add UNOARConfigurableSurfaceComponent to static actors flagged in placement.json
+    for label, (actor, entry) in actors.items():
+        slot_tag = entry.get("configurable")
+        if not slot_tag:
+            continue
+        existing = actor.get_components_by_class(unreal.NOARConfigurableSurfaceComponent)
+        comp = existing[0] if existing else actor.add_component_by_class(unreal.NOARConfigurableSurfaceComponent, False, unreal.Transform(), False)
+        if comp:
+            _set(comp, "slot_tag", unreal.GameplayTag(tag_name=slot_tag))
+            _set(comp, "material_slot_name", entry.get("slot", "FRONT"))
+
+    unreal.log(f"[NOAR] assembled {apt}: {spawned} spawned, {updated} updated, {missing} meshes missing")
+    return actors
 
 
 if __name__ == "__main__":
-    assemble("/Game/Apartments/DEMPSTER/Millwork/Interactive", apt="DEM", room="KIT")
+    here = os.path.dirname(os.path.abspath(__file__))
+    assemble("/Game/Apartments/DEMPSTER", os.path.join(here, "..", "..", "Export", "Dempster", "placement.json"), apt="DEM")

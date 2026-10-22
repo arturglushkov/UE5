@@ -1,0 +1,2130 @@
+{
+ "frame": "UE: X east, Y north, Z up, cm; origin SW interior corner kitchen/dining",
+ "objects": {
+  "SM_DEM_KIT_D01_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 90,
+   "hinge": "L",
+   "opens_inward": true,
+   "blocks_pawn": true,
+   "location": [
+    -9.7,
+    31.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "WOOD",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_T01_CARC": {
+   "mechanism": "Static",
+   "location": [
+    63.5,
+    149.86,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_T01_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    63.5,
+    149.86,
+    10.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_T02_CARC": {
+   "mechanism": "Static",
+   "location": [
+    63.5,
+    223.52,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_T02_FLAP_01": {
+   "mechanism": "FlapUp",
+   "open_angle": 85,
+   "location": [
+    63.5,
+    223.52,
+    219.08
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT"
+   ]
+  },
+  "SM_DEM_KIT_T02_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    63.5,
+    223.52,
+    10.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_A01_CARC": {
+   "mechanism": "Static",
+   "location": [
+    63.5,
+    299.72,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_A01_DOOR_01_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 115,
+   "hinge": "R",
+   "location": [
+    63.5,
+    391.16,
+    10.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_A02_CARC": {
+   "mechanism": "Static",
+   "location": [
+    63.5,
+    391.16,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_A02_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 115,
+   "hinge": "L",
+   "location": [
+    63.5,
+    391.16,
+    10.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_T03_CARC": {
+   "mechanism": "Static",
+   "location": [
+    63.5,
+    482.6,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_T03_DOOR_01_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "R",
+   "location": [
+    63.5,
+    518.16,
+    10.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_T04_CARC": {
+   "mechanism": "Static",
+   "location": [
+    63.5,
+    455.93,
+    0.0
+   ],
+   "yaw": -90.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_T04_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    63.5,
+    455.93,
+    10.0
+   ],
+   "yaw": -90.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_T04_DOOR_02_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "R",
+   "location": [
+    184.15,
+    455.93,
+    10.0
+   ],
+   "yaw": -90.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_CARC": {
+   "mechanism": "Static",
+   "location": [
+    184.15,
+    474.43,
+    0.0
+   ],
+   "yaw": -90.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_S01_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    184.15,
+    474.43,
+    10.0
+   ],
+   "yaw": -90.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_DOOR_02_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "R",
+   "location": [
+    311.15,
+    474.43,
+    10.0
+   ],
+   "yaw": -90.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_LED_0101": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_KIT_S01_LED_0102": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_KIT_S01_LED_0201": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_KIT_S01_LED_0202": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_KIT_S01_LED_0301": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_KIT_S01_LED_0302": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_KIT_I01_STONE": {
+   "mechanism": "Static",
+   "configurable": "Configurable.Countertop.Kitchen",
+   "slot": "STONE",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE"
+   ]
+  },
+  "SM_DEM_KIT_B01_CARC": {
+   "mechanism": "Static",
+   "location": [
+    184.15,
+    219.86,
+    0.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_B01_FLAP_01": {
+   "mechanism": "FlapDown",
+   "open_angle": 88,
+   "location": [
+    184.15,
+    219.86,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT"
+   ]
+  },
+  "SM_DEM_KIT_B01_TRAY_01": {
+   "mechanism": "Drawer",
+   "travel": 64.68,
+   "requires": [
+    "SM_DEM_KIT_B01_FLAP_01"
+   ],
+   "location": [
+    254.83,
+    189.86,
+    14.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B01_TRAY_02": {
+   "mechanism": "Drawer",
+   "travel": 64.68,
+   "requires": [
+    "SM_DEM_KIT_B01_FLAP_01"
+   ],
+   "location": [
+    254.83,
+    189.86,
+    52.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B02_CARC": {
+   "mechanism": "Static",
+   "location": [
+    184.15,
+    309.86,
+    0.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_B02_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    184.15,
+    309.86,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_B02_DOOR_02_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "R",
+   "location": [
+    184.15,
+    219.86,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_B03_CARC": {
+   "mechanism": "Static",
+   "location": [
+    184.15,
+    369.86,
+    0.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_B03_DRW_01": {
+   "mechanism": "Drawer",
+   "travel": 68.68,
+   "location": [
+    254.83,
+    339.86,
+    71.44
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "INTERIOR",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B03_DRW_02": {
+   "mechanism": "Drawer",
+   "travel": 68.68,
+   "location": [
+    254.83,
+    339.86,
+    41.44
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "INTERIOR",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B03_DRW_03": {
+   "mechanism": "Drawer",
+   "travel": 68.68,
+   "location": [
+    254.83,
+    339.86,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "INTERIOR",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B04_CARC": {
+   "mechanism": "Static",
+   "location": [
+    184.15,
+    429.86,
+    0.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_B04_DRW_01": {
+   "mechanism": "Drawer",
+   "travel": 68.68,
+   "location": [
+    254.83,
+    399.86,
+    71.44
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "INTERIOR",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B04_DRW_02": {
+   "mechanism": "Drawer",
+   "travel": 68.68,
+   "location": [
+    254.83,
+    399.86,
+    41.44
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "INTERIOR",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B04_DRW_03": {
+   "mechanism": "Drawer",
+   "travel": 68.68,
+   "location": [
+    254.83,
+    399.86,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "INTERIOR",
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_B05_CARC": {
+   "mechanism": "Static",
+   "location": [
+    184.15,
+    518.0,
+    0.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_KIT_B05_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    184.15,
+    518.0,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_B05_DOOR_02_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "R",
+   "location": [
+    184.15,
+    429.86,
+    10.0
+   ],
+   "yaw": 180.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_LED_SOFFIT_EDGE": {
+   "mechanism": "Light",
+   "group": "LightGroup.Kitchen.Cove",
+   "lumens": 1500,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_DIN_P01_PANELS_WOOD": {
+   "mechanism": "Static",
+   "configurable": "Configurable.WallPanel.Dining",
+   "slot": "PANEL",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PANEL"
+   ]
+  },
+  "SM_DEM_DIN_P01_STONE_BAND": {
+   "mechanism": "Static",
+   "configurable": "Configurable.FeatureStone.Dining",
+   "slot": "STONE_BLUE",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE_BLUE"
+   ]
+  },
+  "SM_DEM_DIN_T01_CARC": {
+   "mechanism": "Static",
+   "location": [
+    690.88,
+    45.0,
+    0.0
+   ],
+   "yaw": 90.0,
+   "collection": "Millwork",
+   "materials": [
+    "CARCASS",
+    "INTERIOR"
+   ]
+  },
+  "SM_DEM_DIN_T01_DOOR_01_L": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "L",
+   "location": [
+    690.88,
+    45.0,
+    0.0
+   ],
+   "yaw": 90.0,
+   "collection": "Millwork",
+   "materials": [
+    "PANEL",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_T01_DOOR_02_R": {
+   "mechanism": "HingedDoor",
+   "open_angle": 105,
+   "hinge": "R",
+   "location": [
+    515.62,
+    45.0,
+    0.0
+   ],
+   "yaw": 90.0,
+   "collection": "Millwork",
+   "materials": [
+    "PANEL",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_L07_RING": {
+   "mechanism": "Light",
+   "group": "LightGroup.Dining.Pendant",
+   "lumens": 2000,
+   "kelvin": 2700,
+   "type": "Point",
+   "location": [
+    554.17,
+    259.72,
+    200.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_LED_COVE_S": {
+   "mechanism": "Light",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_DIN_LED_COVE_N": {
+   "mechanism": "Light",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_DIN_LED_COVE_W": {
+   "mechanism": "Light",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_DIN_LED_COVE_E": {
+   "mechanism": "Light",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "type": "Rect",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "LED"
+   ]
+  },
+  "SM_DEM_DIN_SW01_ROCKER": {
+   "mechanism": "Switch",
+   "groups": [
+    "LightGroup.Dining"
+   ],
+   "plate": "SM_DEM_DIN_SW01_PLATE",
+   "location": [
+    393.13,
+    2.5,
+    110.0
+   ],
+   "yaw": 90.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_SW01_ROCKER": {
+   "mechanism": "Switch",
+   "groups": [
+    "LightGroup.Kitchen"
+   ],
+   "plate": "SM_DEM_KIT_SW01_PLATE",
+   "location": [
+    2.5,
+    129.86,
+    110.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_BALCONY_RAIL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "GLASS",
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_ARCH_BALCONY_SLAB": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CONCRETE"
+   ]
+  },
+  "SM_DEM_ARCH_BASEBOARD": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_CEIL_BASE": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_CEIL_STRIP_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_ARCH_CEIL_STRIP_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_ARCH_CEIL_STRIP_03": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_ARCH_DRAPE_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FABRIC"
+   ]
+  },
+  "SM_DEM_ARCH_DRAPE_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FABRIC"
+   ]
+  },
+  "SM_DEM_ARCH_DRAPE_03": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FABRIC"
+   ]
+  },
+  "SM_DEM_ARCH_DRAPE_04": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FABRIC"
+   ]
+  },
+  "SM_DEM_ARCH_DRAPERY_POCKET": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_FLOOR_KITDIN": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FLOOR"
+   ]
+  },
+  "SM_DEM_ARCH_FLOOR_LIV": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FLOOR"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_01_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_01_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_01_03": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_01_04": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_02_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_02_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_02_03": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_GLAZ_02_04": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "METAL_BLACK",
+    "GLASS"
+   ]
+  },
+  "SM_DEM_ARCH_HALL_S_CEIL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_HALL_S_FLOOR": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FLOOR"
+   ]
+  },
+  "SM_DEM_ARCH_HALL_S_WALLS": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_HALL_W_CEIL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_HALL_W_FLOOR": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "FLOOR"
+   ]
+  },
+  "SM_DEM_ARCH_HALL_W_WALLS": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_HALLDOOR_FRAME": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "WOOD"
+   ]
+  },
+  "SM_DEM_ARCH_SOFFIT_DIN": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_SOFFIT_DIN_RIM": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_SOFFIT_KIT": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "CEILING"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_E_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_E_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_E_03": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_E_HEAD_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_E_HEAD_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_LIV_N": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_LIV_W": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_N_KIT": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_S_A": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_S_B": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_S_LINTEL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_W_A": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_W_B": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_ARCH_WALL_W_LINTEL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Architecture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_01": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_02": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_03": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_04": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_05": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_06": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_07": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_CHAIR_08": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "FABRIC",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_L07_STEM": {
+   "mechanism": "Static",
+   "location": [
+    554.17,
+    259.72,
+    200.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_LIGHT_L03_11": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_DIN_LIGHT_L03_12": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_DIN_LIGHT_L03_21": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_DIN_LIGHT_L03_22": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_DIN_OPENING_CASING": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "WOOD"
+   ]
+  },
+  "SM_DEM_DIN_P01_BACKER": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "METAL_BLACK"
+   ]
+  },
+  "SM_DEM_DIN_P01_PANELS_MIRROR": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "MIRROR_BRONZE"
+   ]
+  },
+  "SM_DEM_DIN_P01_PLINTH": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "WOOD"
+   ]
+  },
+  "SM_DEM_DIN_P01_RETURN": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PANEL"
+   ]
+  },
+  "SM_DEM_DIN_SW01_PLATE": {
+   "mechanism": "Static",
+   "location": [
+    393.13,
+    2.5,
+    110.0
+   ],
+   "yaw": 90.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_DIN_T01_BAND": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE_BLUE"
+   ]
+  },
+  "SM_DEM_DIN_TABLE_LEG_01": {
+   "mechanism": "Static",
+   "location": [
+    462.73,
+    259.72,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "WOOD"
+   ]
+  },
+  "SM_DEM_DIN_TABLE_LEG_02": {
+   "mechanism": "Static",
+   "location": [
+    645.61,
+    259.72,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "WOOD"
+   ]
+  },
+  "SM_DEM_DIN_TABLE_TOP": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "STONE"
+   ]
+  },
+  "SM_DEM_KIT_COOKTOP": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "APPLIANCE"
+   ]
+  },
+  "SM_DEM_KIT_FAUCET": {
+   "mechanism": "Static",
+   "location": [
+    244.15,
+    264.86,
+    91.44
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_LIGHT_L01_11": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_LIGHT_L01_12": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_LIGHT_L01_13": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_LIGHT_L01_21": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_LIGHT_L01_22": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_LIGHT_L01_23": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_N_FILLER": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_S01_BACKWALL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE"
+   ]
+  },
+  "SM_DEM_KIT_S01_BULKHEAD": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_S01_FRAME": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_SHELF_0101": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "GLASS_BRONZE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_SHELF_0102": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "GLASS_BRONZE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_SHELF_0201": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "GLASS_BRONZE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_SHELF_0202": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "GLASS_BRONZE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_SHELF_0301": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "GLASS_BRONZE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_SHELF_0302": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "GLASS_BRONZE",
+    "METAL_BRONZE"
+   ]
+  },
+  "SM_DEM_KIT_S01_TOP": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "STONE"
+   ]
+  },
+  "SM_DEM_KIT_SINK": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Furniture",
+   "materials": [
+    "STAINLESS"
+   ]
+  },
+  "SM_DEM_KIT_SW01_PLATE": {
+   "mechanism": "Static",
+   "location": [
+    2.5,
+    129.86,
+    110.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_T04_SOFFIT": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  },
+  "SM_DEM_KIT_TALL_ENDPANEL": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "FRONT"
+   ]
+  },
+  "SM_DEM_KIT_TALL_SOFFIT": {
+   "mechanism": "Static",
+   "location": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "yaw": 0.0,
+   "collection": "Millwork",
+   "materials": [
+    "PAINT"
+   ]
+  }
+ }
+}

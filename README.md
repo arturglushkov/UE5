@@ -18,15 +18,38 @@ Config/
   DefaultEditor.ini
 Source/
   NOAR.Target.cs, NOAREditor.Target.cs
-  NOARCore/                    # tiny C++ module: enums, structs, native gameplay tags, settings, shipping guards
+  NOARCore/                    # the framework in C++ (~4 800 lines); Blueprints are thin subclasses
+    Public/NOARTypes.h               enums, data-table row, save struct
+    Public/NOARSettings.h            Project Settings > Game > NOAR: every tunable from the standard
+    Public/NOARFunctionLibrary.h     shipping guard, quality tiers, photo-mode overrides, HWRT/Mac detection
+    Public/Interaction/              INOARInteractable, UNOARInteractionComponent, ANOARInteractiveBase,
+                                     Door / Drawer / Flap / SlidingDoor / Pocket
+    Public/Lighting/                 ANOARInteractiveLight, ANOARLightSwitch, UNOARLightingSubsystem, ANOARDayNightManager
+    Public/Character/                ANOARCharacter (3P/1P, lag, fade, click-to-walk), ANOARCameraZone
+    Public/Core/                     ANOARPlayerController, ANOARGameMode, UNOARGameInstance (+SaveGame), UNOARApartmentSubsystem
+    Public/Configurator/             UNOARConfigurableSurfaceComponent, UNOARConfiguratorSubsystem
+    Public/Data/                     UNOARApartmentData, UNOARRoomData, UNOARLightPreset, UNOARProductData
 Scripts/Editor/                # UE Python editor utilities (run from Editor > Tools > Execute Python Script)
   noar_validate_export.py      # pivot / scale / naming validation for interactive millwork
   noar_import_spec.py          # CSV (designer spec) -> DA_Product / DT_FinishOptions
-  noar_millwork_assembler.py   # spawns BP_Interactive* actors from imported SM_* meshes by suffix
+  noar_import_fbx.py           # imports Export/<Apt>/*.fbx with the Standard's settings (Nanite, pivots kept)
+  noar_millwork_assembler.py   # places every mesh from placement.json and wraps moving parts in ANOARInteractive*
+  noar_spawn_lights.py         # spawns ANOARInteractiveLight actors from lights.json (groups, lumens, Kelvin)
+  noar_setup_materials.py      # M_Master_Opaque/Glass/Mirror/Emissive + MI_<ROLE> + finish library, assigned by slot name
+  noar_setup_level.py          # DA_LightPreset/Room/Apartment, BP_* thin subclasses, L_DEM_Prototype (sun, sky, PP, DayNightManager)
+  noar_setup_input.py          # IA_* / IMC_Walk|UI|Photo with key + gamepad mappings, wired into the BP class defaults
+  noar_bootstrap_prototype.py  # ONE script: everything above in order -> press Play
+Scripts/Geometry/              # Blender-as-module (pip install bpy) procedural geometry in UE conventions
+  noar_geo.py                  # box/cabinet/door/drawer builders, UE<->Blender frame, UV box projection, bevels
+  build_dempster_prototype.py  # kitchen + dining prototype -> Export/Dempster/*.fbx + placement.json + lights.json
+  render_preview.py            # Workbench QA renders of the .blend
 Data/Dempster/                 # CSV data tables from the ID drawings 09.30.2026 (D0.01-D0.05)
+  Prototype/                   # placement.json / lights.json / DIMENSIONS_ASSUMED.md of the last geometry build
+Export/                        # FBX / .blend (git-ignored; regenerate with Scripts/Geometry)
 Docs/
   NOAR_UE5_Digital_Apartment_Standard.md   # the standard, v1.1 (exported from the living doc)
   ROADMAP.md                               # phases, gates, step checklist
+  Dempster_Prototype_Geometry.md           # what the prototype geometry contains, how to import it, assumed dimensions
 ```
 
 ## Getting started
@@ -36,6 +59,27 @@ Docs/
 3. Right-click `NOAR.uproject` → *Generate project files* (Xcode / Visual Studio), build `NOAREditor` once (the C++ module is ~300 lines).
 4. Open the project. In *Content Browser → Add → Add Feature or Content Pack* add **Third Person** (Blueprint) — this brings Manny, the ABP and the input assets the standard builds on. Move them into `Content/NOAR/Characters/` and rename per the naming convention.
 5. Create the folders from Standard §2 and start Phase 1 (`Docs/ROADMAP.md`).
+
+## Building NOARCore (first time)
+
+1. Right-click `NOAR.uproject` → *Generate Xcode Project* (Mac) / *Generate Visual Studio project files* (Windows).
+2. Open the generated workspace, select the `NOAREditor` scheme, build. First build compiles ~45 files; later builds are seconds.
+3. If the build fails, paste the first 30 lines of errors into the chat — the code was written against the UE 5.8 API but never compiled on this machine, so one or two API renames are expected.
+4. Open the project. Project Settings → Game → **NOAR** holds every tunable (interaction distance, speeds, camera, timings).
+
+### Blueprints to create on top (thin subclasses, no logic)
+
+| Blueprint | Parent | What you set |
+| --- | --- | --- |
+| `BP_NOAR_Character` | `ANOARCharacter` | Skeletal mesh (Manny), ABP, `WalkContext` + IA_* assets |
+| `BP_NOAR_PlayerController` | `ANOARPlayerController` | `UIContext`, `PhotoContext`, IA_*; create WBP_* widgets on `OnUIRequest` |
+| `BP_NOAR_GameMode` | `ANOARGameMode` | `Apartment` = DA_Apartment_DEMPSTER; set as the level's GameMode override |
+| `BP_InteractiveDoor` / `Drawer` / `Flap` / `SlidingDoor` / `Pocket` | `ANOARInteractive*` | Sounds; per-instance mesh and parameters are set by `noar_millwork_assembler.py` |
+| `BP_InteractiveLight_Downlight` / `_LED` / `_Pendant` | `ANOARInteractiveLight` | Add Spot / Rect / Point light components, strip mesh with `M_Master_Emissive` |
+| `BP_LightSwitch` | `ANOARLightSwitch` | Plate + rocker meshes |
+| `BP_DayNightManager` | `ANOARDayNightManager` | Place in level, assign Sun / SkyLight / PostProcess / Backdrop, 3 presets |
+| `BPV_CameraZone` | `ANOARCameraZone` | Place in corridors / WIC / bathrooms |
+| `DA_Apartment_DEMPSTER`, `DA_Room_*`, `DA_LightPreset_Day/Evening/Night`, `DA_Product_*` | data assets | Values from `Data/Dempster/*.csv` (`noar_import_spec.py`) |
 
 ## Rules in one screen
 

@@ -3,7 +3,10 @@
 #include "NOARCore.h"
 #include "Misc/EngineVersion.h"
 #include "GameFramework/GameUserSettings.h"
+#include "Engine/Engine.h"
+#include "HAL/IConsoleManager.h"
 #include "RHI.h"
+#include "RenderUtils.h"
 
 const UNOARSettings* UNOARFunctionLibrary::GetNOARSettings()
 {

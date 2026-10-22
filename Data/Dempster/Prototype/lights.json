@@ -1,0 +1,483 @@
+{
+ "frame": "UE cm",
+ "lights": [
+  {
+   "name": "L02_DISPLAY_11",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "pos": [
+    218.9,
+    488.43000000000006,
+    121.94
+   ],
+   "dir": [
+    0.3,
+    0.3,
+    -1
+   ],
+   "size": [
+    52.5,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DISPLAY_12",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "pos": [
+    276.4,
+    488.43000000000006,
+    121.94
+   ],
+   "dir": [
+    0.3,
+    0.3,
+    -1
+   ],
+   "size": [
+    52.49999999999997,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DISPLAY_21",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "pos": [
+    218.9,
+    488.43000000000006,
+    157.94
+   ],
+   "dir": [
+    0.3,
+    0.3,
+    -1
+   ],
+   "size": [
+    52.5,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DISPLAY_22",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "pos": [
+    276.4,
+    488.43000000000006,
+    157.94
+   ],
+   "dir": [
+    0.3,
+    0.3,
+    -1
+   ],
+   "size": [
+    52.49999999999997,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DISPLAY_31",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "pos": [
+    218.9,
+    488.43000000000006,
+    193.94
+   ],
+   "dir": [
+    0.3,
+    0.3,
+    -1
+   ],
+   "size": [
+    52.5,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DISPLAY_32",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cabinet",
+   "lumens": 120,
+   "kelvin": 3000,
+   "pos": [
+    276.4,
+    488.43000000000006,
+    193.94
+   ],
+   "dir": [
+    0.3,
+    0.3,
+    -1
+   ],
+   "size": [
+    52.49999999999997,
+    1.0
+   ]
+  },
+  {
+   "name": "L01_KIT_11",
+   "type": "Spot",
+   "group": "LightGroup.Kitchen.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    90,
+    200,
+    258.08
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L01_KIT_12",
+   "type": "Spot",
+   "group": "LightGroup.Kitchen.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    90,
+    330,
+    258.08
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L01_KIT_13",
+   "type": "Spot",
+   "group": "LightGroup.Kitchen.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    90,
+    460,
+    258.08
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L01_KIT_21",
+   "type": "Spot",
+   "group": "LightGroup.Kitchen.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    230,
+    200,
+    258.08
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L01_KIT_22",
+   "type": "Spot",
+   "group": "LightGroup.Kitchen.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    230,
+    330,
+    258.08
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L01_KIT_23",
+   "type": "Spot",
+   "group": "LightGroup.Kitchen.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    230,
+    460,
+    258.08
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L02_KIT_SOFFIT_EDGE",
+   "type": "Rect",
+   "group": "LightGroup.Kitchen.Cove",
+   "lumens": 1500,
+   "kelvin": 3000,
+   "pos": [
+    326.565,
+    259.71500000000003,
+    265.08
+   ],
+   "dir": [
+    1,
+    0,
+    0.2
+   ],
+   "size": [
+    459.43000000000006,
+    1.0
+   ]
+  },
+  {
+   "name": "L07_CHANDELIER",
+   "type": "Point",
+   "group": "LightGroup.Dining.Pendant",
+   "lumens": 2000,
+   "kelvin": 2700,
+   "pos": [
+    554.1700000000001,
+    259.71500000000003,
+    196
+   ],
+   "radius": 15
+  },
+  {
+   "name": "L03_DIN_11",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    400,
+    130,
+    280.94
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_DIN_12",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    400,
+    390,
+    280.94
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_DIN_21",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    560,
+    130,
+    280.94
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_DIN_22",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Ambient",
+   "lumens": 700,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    560,
+    390,
+    280.94
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L06_DIN_WASH_1",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Accent",
+   "lumens": 400,
+   "kelvin": 2700,
+   "ies": "IES_WallWasher",
+   "pos": [
+    150,
+    45,
+    280.94
+   ],
+   "dir": [
+    0,
+    -0.45,
+    -1
+   ]
+  },
+  {
+   "name": "L06_DIN_WASH_2",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Accent",
+   "lumens": 400,
+   "kelvin": 2700,
+   "ies": "IES_WallWasher",
+   "pos": [
+    250,
+    45,
+    280.94
+   ],
+   "dir": [
+    0,
+    -0.45,
+    -1
+   ]
+  },
+  {
+   "name": "L06_DIN_WASH_3",
+   "type": "Spot",
+   "group": "LightGroup.Dining.Accent",
+   "lumens": 400,
+   "kelvin": 2700,
+   "ies": "IES_WallWasher",
+   "pos": [
+    350,
+    45,
+    280.94
+   ],
+   "dir": [
+    0,
+    -0.45,
+    -1
+   ]
+  },
+  {
+   "name": "L02_DIN_COVE_S",
+   "type": "Rect",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "pos": [
+    510.22249999999997,
+    31.5,
+    284.06
+   ],
+   "dir": [
+    0,
+    1,
+    0.3
+   ],
+   "size": [
+    293.315,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DIN_COVE_N",
+   "type": "Rect",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "pos": [
+    510.22249999999997,
+    487.93000000000006,
+    284.06
+   ],
+   "dir": [
+    0,
+    -1,
+    0.3
+   ],
+   "size": [
+    293.315,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DIN_COVE_W",
+   "type": "Rect",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "pos": [
+    361.065,
+    259.71500000000003,
+    284.06
+   ],
+   "dir": [
+    1,
+    0,
+    0.3
+   ],
+   "size": [
+    451.43000000000006,
+    1.0
+   ]
+  },
+  {
+   "name": "L02_DIN_COVE_E",
+   "type": "Rect",
+   "group": "LightGroup.Dining.Cove",
+   "lumens": 1200,
+   "kelvin": 3000,
+   "pos": [
+    659.38,
+    259.71500000000003,
+    284.06
+   ],
+   "dir": [
+    -1,
+    0,
+    0.3
+   ],
+   "size": [
+    451.43000000000006,
+    1.0
+   ]
+  }
+ ]
+}
