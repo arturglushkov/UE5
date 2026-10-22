@@ -62,7 +62,7 @@ void UNOARApartmentSubsystem::TeleportToRoom(FName RoomID)
 		return;
 	}
 	// The fade is driven by the HUD (OnRoomEntered -> fade in); teleport happens now
-	C->TeleportTo(Room->TeleportTransform);
+	C->TeleportToTransform(Room->TeleportTransform);
 	if (Room->RecommendedCamera == ENOARCameraMode::FirstPerson && C->GetCameraMode() != ENOARCameraMode::FirstPerson)
 	{
 		// only a hint; never switch without the user (section 7)
@@ -93,10 +93,9 @@ FNOARClientConfiguration UNOARApartmentSubsystem::BuildConfiguration() const
 	{
 		C.LightGroups = L->GetGroupStates();
 	}
-	for (TActorIterator<ANOARDayNightManager> It(GetWorld()); It; ++It)
+	if (TActorIterator<ANOARDayNightManager> It(GetWorld()); It)
 	{
 		C.LightingPreset = It->GetCurrentPreset();
-		break;
 	}
 	if (const ANOARCharacter* Ch = GetCharacter())
 	{
@@ -131,7 +130,7 @@ void UNOARApartmentSubsystem::RestoreSavedConfiguration()
 	UNOARConfiguratorSubsystem* Cfg = GetWorld()->GetSubsystem<UNOARConfiguratorSubsystem>();
 	UNOARLightingSubsystem* Lights = GetWorld()->GetSubsystem<UNOARLightingSubsystem>();
 	ANOARDayNightManager* DayNight = nullptr;
-	for (TActorIterator<ANOARDayNightManager> It(GetWorld()); It; ++It) { DayNight = *It; break; }
+	if (TActorIterator<ANOARDayNightManager> It(GetWorld()); It) { DayNight = *It; }
 
 	if (bHas)
 	{
@@ -163,10 +162,9 @@ void UNOARApartmentSubsystem::ResetDesign()
 	{
 		Cfg->ResetToDefaults();
 	}
-	for (TActorIterator<ANOARDayNightManager> It(GetWorld()); It; ++It)
+	if (TActorIterator<ANOARDayNightManager> It(GetWorld()); It)
 	{
 		It->SetPreset(ENOARLightingPreset::Day, false);
-		break;
 	}
 	SaveNow(false);
 }

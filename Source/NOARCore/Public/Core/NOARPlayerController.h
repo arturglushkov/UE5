@@ -9,12 +9,14 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class ANOARCharacter;
+class UNOARHUDWidget;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNOAROnUIRequest, FName, Panel);
 
 /**
  * BP_NOAR_PlayerController (Standard v1.1, section 11): input contexts, cursor, UI requests, photo mode.
- * UI widgets are created by the Blueprint subclass (WBP_*) in response to OnUIRequest; C++ never references UMG classes.
+ * The HUD (UNOARHUDWidget, built in code) is created from HUDClass and routes OnUIRequest to its panels;
+ * a WBP_ subclass of UNOARHUDWidget can replace it to restyle without touching the logic.
  */
 UCLASS(Blueprintable)
 class NOARCORE_API ANOARPlayerController : public APlayerController
@@ -42,9 +44,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NOAR|Input")
 	TObjectPtr<UInputAction> IA_ProductInfo;
 
-	/** Panel names: "Menu", "Finishes", "Rooms", "Photo", "Product", "Settings" */
+	/** Panel names: "Menu", "Finishes", "Rooms", "Lighting", "Photo", "PhotoClosed", "Product" */
 	UPROPERTY(BlueprintAssignable, Category = "NOAR|UI")
 	FNOAROnUIRequest OnUIRequest;
+
+	/** HUD + panel host created in BeginPlay; None = no built-in UI (Blueprint builds its own on OnUIRequest) */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NOAR|UI")
+	TSubclassOf<UNOARHUDWidget> HUDClass;
+
+	UFUNCTION(BlueprintPure, Category = "NOAR|UI")
+	UNOARHUDWidget* GetHUDWidget() const { return HUD; }
 
 	UFUNCTION(BlueprintCallable, Category = "NOAR|UI")
 	void RequestPanel(FName Panel);
@@ -84,6 +93,9 @@ protected:
 
 	UFUNCTION()
 	void HandleCameraModeChanged(ENOARCameraMode Mode);
+
+	UPROPERTY(Transient)
+	TObjectPtr<UNOARHUDWidget> HUD;
 
 	bool bPhotoMode = false;
 	bool bModal = false;

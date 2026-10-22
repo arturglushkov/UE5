@@ -6,6 +6,8 @@
 #include "NOARFunctionLibrary.generated.h"
 
 class UNOARSettings;
+class UInputMappingContext;
+class UInputAction;
 
 /** Small helpers Blueprints cannot express cleanly: shipping guards, scalability tier, hardware facts. */
 UCLASS()
@@ -49,4 +51,17 @@ public:
 	/** Tier chosen from Synth Benchmark GPU index: <150 Low, <300 Medium, <550 High, else Ultra */
 	UFUNCTION(BlueprintPure, Category = "NOAR|Quality")
 	static ENOARQualityTier TierFromGPUIndex(float GPUIndex);
+
+	/**
+	 * Editor/setup helper (used by Scripts/Editor/noar_setup_input.py): adds Key -> Action to a mapping context with the
+	 * usual modifiers. Python cannot edit the mapping returned by MapKey (it gets a copy), so this lives in C++.
+	 * bSwizzleYX: X axis value goes to Y (W/S on a 2D move action); bNegate: invert; DeadZone > 0 adds a radial dead zone;
+	 * Scale != 1 adds a scalar modifier.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "NOAR|Input")
+	static void AddKeyMapping(UInputMappingContext* Context, UInputAction* Action, FName KeyName, bool bSwizzleYX = false, bool bNegate = false, float DeadZone = 0.f, float Scale = 1.f);
+
+	/** Removes every mapping from a context (setup re-runs). */
+	UFUNCTION(BlueprintCallable, Category = "NOAR|Input")
+	static void ClearKeyMappings(UInputMappingContext* Context);
 };

@@ -22,6 +22,7 @@ Re-running is safe: an actor whose label already exists is updated in place, not
 import json
 import os
 import unreal
+import noar_ue as ue
 
 CLASS_ROOT = "/Game/NOAR/Blueprints/Interactive"
 BP_BY_MECH = {
@@ -72,16 +73,23 @@ def _class_for(mech):
 
 
 def _find_meshes(content_path):
+    """Asset name -> AssetData. The 5.8 Interchange FBX importer names a mesh after the exported mesh data, which
+    Blender suffixes when modifiers are applied on export (SM_X -> SM_X_001); both spellings map to the same asset."""
+    import re
     out = {}
     for a in asset_reg.get_assets_by_path(content_path, recursive=True):
         if a.asset_class_path.asset_name == "StaticMesh":
-            out[str(a.asset_name)] = a
+            n = str(a.asset_name)
+            # legacy importer prefixes the FBX file name: SM_DEM_PROTO_Millwork_SM_DEM_KIT_... -> SM_DEM_KIT_...
+            n = re.sub(r"^SM_[A-Z]{3}_PROTO_[A-Za-z]+_", "", n)
+            out.setdefault(n, a)
+            out.setdefault(re.sub(r"_\d{3}$", "", n), a)
     return out
 
 
 def _transform(entry):
     loc = entry.get("location", [0, 0, 0])
-    return unreal.Transform(unreal.Vector(*loc), unreal.Rotator(0.0, entry.get("yaw", 0.0), 0.0), unreal.Vector(1, 1, 1))
+    return unreal.Transform(unreal.Vector(*loc), ue.rot(yaw=entry.get("yaw", 0.0)), unreal.Vector(1, 1, 1))
 
 
 def _room_of(name):
@@ -132,7 +140,10 @@ def assemble(content_path, placement_json, apt="DEM", rooms=None, place_statics=
             else:
                 actor.set_actor_transform(xf, False, False)
                 updated += 1
-            actor.set_mobility(unreal.ComponentMobility.STATIC)
+            for c in actor.get_components_by_class(unreal.StaticMeshComponent):
+                c.set_static_mesh(mesh)
+                break
+            ue.set_mobility(actor, unreal.ComponentMobility.STATIC)
             actors[label] = (actor, entry)
             continue
 
@@ -158,21 +169,21 @@ def assemble(content_path, placement_json, apt="DEM", rooms=None, place_statics=
 
         if mech == "HingedDoor":
             _set(actor, "open_angle", float(entry.get("open_angle", 105)))
-            _set(actor, "hinge_side", unreal.ENOARHingeSide.LEFT if entry.get("hinge", "L") == "L" else unreal.ENOARHingeSide.RIGHT)
+            _set(actor, "hinge_side", ue.enum("ENOARHingeSide").LEFT if entry.get("hinge", "L") == "L" else ue.enum("ENOARHingeSide").RIGHT)
             _set(actor, "opens_inward", bool(entry.get("opens_inward", False)))
         elif mech == "Drawer":
             _set(actor, "travel_distance", float(entry.get("travel", 0.0)))
         elif mech in ("FlapUp", "FlapDown"):
-            _set(actor, "mode", unreal.ENOARFlapMode.LIFT_UP if mech == "FlapUp" else unreal.ENOARFlapMode.DROP_DOWN)
+            _set(actor, "mode", ue.enum("ENOARFlapMode").LIFT_UP if mech == "FlapUp" else ue.enum("ENOARFlapMode").DROP_DOWN)
             _set(actor, "open_angle", float(entry.get("open_angle", 90)))
         elif mech == "SlidingDoor":
             _set(actor, "travel_distance", float(entry.get("travel", 0.0)))
         elif mech == "Light":
-            _set(actor, "light_group_tag", unreal.GameplayTag(tag_name=entry.get("group", f"LightGroup.{ROOM_TO_ZONE.get(room, room)}.Cabinet")))
+            _set(actor, "light_group_tag", ue.tag(entry.get("group", f"LightGroup.{ROOM_TO_ZONE.get(room, room)}.Cabinet")))
             _set(actor, "lumens", float(entry.get("lumens", 300)))
             _set(actor, "kelvin", float(entry.get("kelvin", 3000)))
         elif mech == "Switch":
-            _set(actor, "light_group_tags", [unreal.GameplayTag(tag_name=t) for t in entry.get("groups", [])])
+            _set(actor, "light_group_tags", [ue.tag(t) for t in entry.get("groups", [])])
             plate = entry.get("plate")
             if plate and plate in meshes:
                 pc = next((c for c in actor.get_components_by_class(unreal.StaticMeshComponent) if c.get_name() == "PlateMesh"), None)
@@ -181,7 +192,7 @@ def assemble(content_path, placement_json, apt="DEM", rooms=None, place_statics=
 
         if mech not in ("Light", "Switch"):
             _set(actor, "save_key", label)
-            _set(actor, "zone_tag", unreal.GameplayTag(tag_name=f"Zone.{ROOM_TO_ZONE.get(room, room)}"))
+            _set(actor, "zone_tag", ue.tag(f"Zone.{ROOM_TO_ZONE.get(room, room)}"))
             _set(actor, "blocks_pawn_when_closed", bool(entry.get("blocks_pawn", False)))
         actors[label] = (actor, entry)
 
@@ -203,12 +214,20 @@ def assemble(content_path, placement_json, apt="DEM", rooms=None, place_statics=
         if not slot_tag:
             continue
         existing = actor.get_components_by_class(unreal.NOARConfigurableSurfaceComponent)
-        comp = existing[0] if existing else actor.add_component_by_class(unreal.NOARConfigurableSurfaceComponent, False, unreal.Transform(), False)
+        comp = existing[0] if existing else ue.add_instance_component(actor, unreal.NOARConfigurableSurfaceComponent, "ConfigurableSurface")
         if comp:
-            _set(comp, "slot_tag", unreal.GameplayTag(tag_name=slot_tag))
+            _set(comp, "slot_tag", ue.tag(slot_tag))
             _set(comp, "material_slot_name", entry.get("slot", "FRONT"))
 
-    unreal.log(f"[NOAR] assembled {apt}: {spawned} spawned, {updated} updated, {missing} meshes missing")
+    # remove actors from earlier geometry versions that placement.json no longer lists (e.g. prototype walls replaced by the plan shell)
+    wanted = {n[3:] for n in objects}
+    removed = 0
+    for a in actor_sub.get_all_level_actors():
+        lab = a.get_actor_label()
+        if lab.startswith(f"{apt}_") and lab not in wanted:
+            actor_sub.destroy_actor(a)
+            removed += 1
+    unreal.log(f"[NOAR] assembled {apt}: {spawned} spawned, {updated} updated, {missing} meshes missing, {removed} stale removed")
     return actors
 
 

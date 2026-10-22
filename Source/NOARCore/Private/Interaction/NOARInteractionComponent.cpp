@@ -193,8 +193,24 @@ void UNOARInteractionComponent::SetFocus(AActor* NewActor, bool bInRange, ENOARI
 void UNOARInteractionComponent::TryInteract()
 {
 	AActor* Target = FocusedActor.Get();
-	if (!bEnabled || !Target)
+	if (!bEnabled)
 	{
+		return;
+	}
+	if (!Target)
+	{
+		// nothing interactive under the cursor: click on the floor walks there (3P mouse only)
+		if (InputMode == ENOARInputMode::Mouse3P)
+		{
+			const APawn* Pawn = Cast<APawn>(GetOwner());
+			APlayerController* PC = Pawn ? Cast<APlayerController>(Pawn->GetController()) : nullptr;
+			FHitResult Hit;
+			if (PC && PC->GetHitResultUnderCursor(ECC_Visibility, false, Hit) && Hit.bBlockingHit && Hit.ImpactNormal.Z > 0.7f)
+			{
+				PendingTarget = nullptr;
+				OnWalkToRequested.Broadcast(Hit.ImpactPoint);
+			}
+		}
 		return;
 	}
 

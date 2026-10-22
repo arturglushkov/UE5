@@ -92,6 +92,7 @@ enum class ENOARLightingPreset : uint8
 UENUM(BlueprintType)
 enum class ENOARQualityTier : uint8
 {
+	Unset	= 0	UMETA(Hidden),
 	Low		= 1	UMETA(DisplayName = "NOAR_LOW"),
 	Medium	= 2	UMETA(DisplayName = "NOAR_MEDIUM"),
 	High	= 3	UMETA(DisplayName = "NOAR_HIGH"),

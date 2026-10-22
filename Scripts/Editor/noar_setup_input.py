@@ -14,6 +14,7 @@ Mappings: WASD + arrows + gamepad left stick -> Move; mouse XY + right stick -> 
 If the SkeletalMesh for BP_NOAR_Character is missing (Third Person pack not added yet) the character still moves as a capsule.
 """
 import unreal
+import noar_ue as ue
 
 ACTIONS_DIR = "/Game/NOAR/Input/Actions"
 CONTEXTS_DIR = "/Game/NOAR/Input/Contexts"
@@ -24,7 +25,7 @@ asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
 ACTIONS = {
     "IA_Move": unreal.InputActionValueType.AXIS2D, "IA_Look": unreal.InputActionValueType.AXIS2D, "IA_LookHold": unreal.InputActionValueType.BOOLEAN,
     "IA_FastWalk": unreal.InputActionValueType.BOOLEAN, "IA_Interact": unreal.InputActionValueType.BOOLEAN, "IA_ToggleCamera": unreal.InputActionValueType.BOOLEAN,
-    "IA_Zoom": unreal.InputActionValueType.AXIS1D, "IA_Menu": unreal.InputActionValueType.BOOLEAN, "IA_Finishes": unreal.InputActionValueType.BOOLEAN,
+    "IA_Zoom": unreal.InputActionValueType.AXIS1D, "IA_KeyLook": unreal.InputActionValueType.AXIS2D, "IA_Menu": unreal.InputActionValueType.BOOLEAN, "IA_Finishes": unreal.InputActionValueType.BOOLEAN,
     "IA_Rooms": unreal.InputActionValueType.BOOLEAN, "IA_DayNight": unreal.InputActionValueType.BOOLEAN, "IA_PhotoMode": unreal.InputActionValueType.BOOLEAN,
     "IA_ProductInfo": unreal.InputActionValueType.BOOLEAN,
 }
@@ -46,24 +47,6 @@ def _data_asset(folder, name, cls):
     return asset_tools.create_asset(name, folder, unreal.DataAsset, f)
 
 
-def _mod(cls, **props):
-    m = unreal.new_object(cls)
-    for k, v in props.items():
-        _set(m, k, v)
-    return m
-
-
-def _map(imc, action, key, modifiers=(), triggers=()):
-    m = imc.map_key(action, unreal.Key(key_name=key)) if hasattr(imc, "map_key") else None
-    if m is None:
-        unreal.log_warning(f"[NOAR] {imc.get_name()}: map_key not available - add {key} -> {action.get_name()} by hand")
-        return
-    if modifiers:
-        _set(m, "modifiers", list(modifiers))
-    if triggers:
-        _set(m, "triggers", list(triggers))
-
-
 def build_actions():
     out = {}
     for name, vt in ACTIONS.items():
@@ -75,42 +58,49 @@ def build_actions():
 
 
 def build_contexts(ia):
-    neg = lambda: _mod(unreal.InputModifierNegate)  # noqa
-    swz = lambda: _mod(unreal.InputModifierSwizzleAxis, order=unreal.InputAxisSwizzle.YXZ)  # noqa
-    dz = lambda: _mod(unreal.InputModifierDeadZone, lower_threshold=0.2)  # noqa
+    """Mappings go through UNOARFunctionLibrary.add_key_mapping (C++): Python only gets a copy of MapKey's result,
+    so modifiers set from Python would be lost."""
+    lib = unreal.NOARFunctionLibrary
 
-    walk = _data_asset(CONTEXTS_DIR, "IMC_Walk", unreal.InputMappingContext)
-    _set(walk, "mappings", [])
-    # Move: W/S -> Y (forward), A/D -> X
-    _map(walk, ia["IA_Move"], "W", [swz()]); _map(walk, ia["IA_Move"], "S", [swz(), neg()])
-    _map(walk, ia["IA_Move"], "D"); _map(walk, ia["IA_Move"], "A", [neg()])
-    _map(walk, ia["IA_Move"], "Up", [swz()]); _map(walk, ia["IA_Move"], "Down", [swz(), neg()])
-    _map(walk, ia["IA_Move"], "Right"); _map(walk, ia["IA_Move"], "Left", [neg()])
-    _map(walk, ia["IA_Move"], "Gamepad_Left2D", [dz()])
-    _map(walk, ia["IA_Look"], "Mouse2D")
-    _map(walk, ia["IA_Look"], "Gamepad_Right2D", [dz(), _mod(unreal.InputModifierScalar, scalar=unreal.Vector(2.5, 2.5, 1.0))])
-    _map(walk, ia["IA_LookHold"], "RightMouseButton")
-    _map(walk, ia["IA_FastWalk"], "LeftShift"); _map(walk, ia["IA_FastWalk"], "Gamepad_LeftTrigger")
-    _map(walk, ia["IA_Interact"], "LeftMouseButton"); _map(walk, ia["IA_Interact"], "E"); _map(walk, ia["IA_Interact"], "Gamepad_FaceButton_Bottom")
-    _map(walk, ia["IA_ToggleCamera"], "V"); _map(walk, ia["IA_ToggleCamera"], "Gamepad_FaceButton_Top")
-    _map(walk, ia["IA_Zoom"], "MouseWheelAxis"); _map(walk, ia["IA_Zoom"], "Gamepad_RightTrigger", [neg()])
-    _map(walk, ia["IA_Zoom"], "Gamepad_LeftShoulder")
+    def ctx(name):
+        c = _data_asset(CONTEXTS_DIR, name, unreal.InputMappingContext)
+        lib.clear_key_mappings(c)
+        return c
+
+    def m(c, action, key, swizzle=False, negate=False, dead_zone=0.0, scale=1.0):
+        lib.add_key_mapping(c, ia[action], key, swizzle, negate, dead_zone, scale)
+
+    def wasd(c):
+        # IA_Move is Axis2D, X = right, Y = forward
+        m(c, "IA_Move", "W", swizzle=True); m(c, "IA_Move", "S", swizzle=True, negate=True)
+        m(c, "IA_Move", "D"); m(c, "IA_Move", "A", negate=True)
+        m(c, "IA_Move", "Gamepad_Left2D", dead_zone=0.2)
+
+    walk = ctx("IMC_Walk")
+    wasd(walk)
+    # arrows turn / tilt the view (trackpad users have no comfortable RMB-drag)
+    m(walk, "IA_KeyLook", "Right"); m(walk, "IA_KeyLook", "Left", negate=True)
+    m(walk, "IA_KeyLook", "Up", swizzle=True); m(walk, "IA_KeyLook", "Down", swizzle=True, negate=True)
+    m(walk, "IA_Look", "Mouse2D")
+    m(walk, "IA_Look", "Gamepad_Right2D", dead_zone=0.2, scale=2.5)
+    m(walk, "IA_LookHold", "RightMouseButton")
+    m(walk, "IA_FastWalk", "LeftShift"); m(walk, "IA_FastWalk", "Gamepad_LeftTrigger")
+    m(walk, "IA_Interact", "LeftMouseButton"); m(walk, "IA_Interact", "E"); m(walk, "IA_Interact", "Gamepad_FaceButton_Bottom")
+    m(walk, "IA_ToggleCamera", "V"); m(walk, "IA_ToggleCamera", "Gamepad_FaceButton_Top")
+    m(walk, "IA_Zoom", "MouseWheelAxis"); m(walk, "IA_Zoom", "Gamepad_RightTrigger", negate=True); m(walk, "IA_Zoom", "Gamepad_LeftShoulder")
     for a, k, g in [("IA_Menu", "Escape", "Gamepad_Special_Right"), ("IA_Finishes", "F", "Gamepad_FaceButton_Left"), ("IA_Rooms", "R", "Gamepad_DPad_Up"),
                     ("IA_DayNight", "L", "Gamepad_DPad_Right"), ("IA_PhotoMode", "P", "Gamepad_DPad_Down"), ("IA_ProductInfo", "I", "Gamepad_FaceButton_Right")]:
-        _map(walk, ia[a], k); _map(walk, ia[a], g)
+        m(walk, a, k); m(walk, a, g)
     eal.save_loaded_asset(walk)
 
-    ui = _data_asset(CONTEXTS_DIR, "IMC_UI", unreal.InputMappingContext)
-    _set(ui, "mappings", [])
-    _map(ui, ia["IA_Menu"], "Escape"); _map(ui, ia["IA_Menu"], "Gamepad_FaceButton_Right")
+    ui = ctx("IMC_UI")
+    m(ui, "IA_Menu", "Escape"); m(ui, "IA_Menu", "Gamepad_FaceButton_Right")
     eal.save_loaded_asset(ui)
 
-    photo = _data_asset(CONTEXTS_DIR, "IMC_Photo", unreal.InputMappingContext)
-    _set(photo, "mappings", [])
-    _map(photo, ia["IA_PhotoMode"], "P"); _map(photo, ia["IA_PhotoMode"], "Escape"); _map(photo, ia["IA_PhotoMode"], "Gamepad_FaceButton_Right")
-    _map(photo, ia["IA_Look"], "Mouse2D"); _map(photo, ia["IA_Look"], "Gamepad_Right2D", [dz()])
-    _map(photo, ia["IA_Move"], "W", [swz()]); _map(photo, ia["IA_Move"], "S", [swz(), neg()]); _map(photo, ia["IA_Move"], "D"); _map(photo, ia["IA_Move"], "A", [neg()])
-    _map(photo, ia["IA_Move"], "Gamepad_Left2D", [dz()])
+    photo = ctx("IMC_Photo")
+    m(photo, "IA_PhotoMode", "P"); m(photo, "IA_PhotoMode", "Escape"); m(photo, "IA_PhotoMode", "Gamepad_FaceButton_Right")
+    m(photo, "IA_Look", "Mouse2D"); m(photo, "IA_Look", "Gamepad_Right2D", dead_zone=0.2)
+    wasd(photo)
     eal.save_loaded_asset(photo)
     return {"IMC_Walk": walk, "IMC_UI": ui, "IMC_Photo": photo}
 
@@ -128,7 +118,7 @@ def wire_blueprints(ia, imc):
     bp, c = cdo("BP_NOAR_Character")
     if c:
         _set(c, "walk_context", imc["IMC_Walk"])
-        for n in ("IA_Move", "IA_Look", "IA_LookHold", "IA_FastWalk", "IA_Interact", "IA_ToggleCamera", "IA_Zoom"):
+        for n in ("IA_Move", "IA_Look", "IA_LookHold", "IA_FastWalk", "IA_Interact", "IA_ToggleCamera", "IA_Zoom", "IA_KeyLook"):
             _set(c, n.lower(), ia[n])
         unreal.BlueprintEditorLibrary.compile_blueprint(bp); eal.save_loaded_asset(bp)
     bp, c = cdo("BP_NOAR_PlayerController")

@@ -16,7 +16,10 @@ import bmesh
 import math
 from mathutils import Vector
 
-CM = 0.01
+# 1 Blender unit = 1 cm (scene scale_length = 0.01) so the FBX carries centimetres with UnitScaleFactor 1:
+# UE imports it 1:1 whatever importer / unit conversion is active.
+CM = 1.0
+UV_SCALE = 1.0 / (100.0 * CM)   # UV: 1 unit = 1 m
 
 # ------------------------------------------------------------------ collections / materials
 
@@ -69,7 +72,8 @@ def _ue_local_to_blender(v):
     return Vector((v[0] * CM, -v[1] * CM, v[2] * CM))
 
 
-def box_uv(bm, uv_layer, scale=1.0):
+def box_uv(bm, uv_layer, scale=None):
+    scale = UV_SCALE if scale is None else scale
     """World-scale box projection: 1 UV unit = 1 m (Standard: floor/materials tile in metres)."""
     for f in bm.faces:
         n = f.normal
@@ -121,7 +125,7 @@ def make_parts(name, parts, pivot=(0, 0, 0), yaw=0.0, col="Millwork", bevel_mm=1
 
     if bevel_mm > 0:
         mod = ob.modifiers.new("Bevel", "BEVEL")
-        mod.width = bevel_mm * 0.001
+        mod.width = bevel_mm * 0.1 * CM
         mod.segments = 2 if bevel_mm >= 1.0 else 1
         mod.limit_method = "ANGLE"
         mod.angle_limit = math.radians(60)
@@ -235,3 +239,39 @@ def drawer_parts(width, front_h, body_depth, body_h=None, mat="FRONT", mat_box="
     parts.append(((0, y1 - 2 - 1.3, 1.0), (d, y1 - 2, bh), "STAINLESS"))                  # side R
     parts.append(((0, y0 + 2, 1.0), (1.3, y1 - 2, bh), mat_box))                          # back
     return parts
+
+
+def make_prism(name, poly, z0, z1, mat, col="Architecture", pivot=(0, 0, 0)):
+    """Vertical prism from a UE-frame polygon (list of (x, y) cm, any winding, concave OK) between z0 and z1."""
+    bm = bmesh.new()
+    bot = [bm.verts.new(_ue_local_to_blender((x - pivot[0], y - pivot[1], z0 - pivot[2]))) for x, y in poly]
+    top = [bm.verts.new(_ue_local_to_blender((x - pivot[0], y - pivot[1], z1 - pivot[2]))) for x, y in poly]
+    bm.faces.new(bot)
+    bm.faces.new(list(reversed(top)))
+    n = len(poly)
+    for i in range(n):
+        j = (i + 1) % n
+        bm.faces.new([bot[i], bot[j], top[j], top[i]])
+    bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 4])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    uv = bm.loops.layers.uv.new("UVMap")
+    box_uv(bm, uv)
+    me = bpy.data.meshes.new(name)
+    bm.to_mesh(me)
+    bm.free()
+    me.materials.append(material(mat))
+    ob = bpy.data.objects.new(name, me)
+    ob.location = Vector((pivot[0] * CM, -pivot[1] * CM, pivot[2] * CM))
+    collection(col).objects.link(ob)
+    ob["noar_pivot_ue"] = list(pivot)
+    ob["noar_yaw_ue"] = 0.0
+    return ob
+
+
+def seg_box(a, b, thick, z0, z1, mat):
+    """Box part along an axis-aligned (or nearly) segment a->b, thickness centred on the line."""
+    (x0, y0), (x1, y1) = a, b
+    h = thick / 2.0
+    if abs(x1 - x0) >= abs(y1 - y0):
+        return ((min(x0, x1), y0 - h, z0), (max(x0, x1), y0 + h, z1), mat)
+    return ((x0 - h, min(y0, y1), z0), (x0 + h, max(y0, y1), z1), mat)

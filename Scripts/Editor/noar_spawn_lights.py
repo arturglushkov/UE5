@@ -13,6 +13,7 @@ Re-running updates actors by label instead of duplicating them.
 """
 import json
 import unreal
+import noar_ue as ue
 
 CLASS_ROOT = "/Game/NOAR/Blueprints/Lighting"
 BP_BY_TYPE = {"Spot": "BP_InteractiveLight_Downlight", "Rect": "BP_InteractiveLight_LED", "Point": "BP_InteractiveLight_Pendant"}
@@ -43,7 +44,7 @@ def _ensure_light_component(actor, light_type):
     if existing:
         return existing[0]
     cls = {"Spot": unreal.SpotLightComponent, "Rect": unreal.RectLightComponent, "Point": unreal.PointLightComponent}[light_type]
-    comp = actor.add_component_by_class(cls, False, unreal.Transform(), False)
+    comp = ue.add_instance_component(actor, cls, "Light")
     return comp
 
 
@@ -67,7 +68,7 @@ def spawn(lights_json, prefix="L_DEM_"):
             actor = actor_sub.spawn_actor_from_class(cls, loc, rot)
             actor.set_actor_label(label)
             n_new += 1
-        _set(actor, "light_group_tag", unreal.GameplayTag(tag_name=e["group"]))
+        _set(actor, "light_group_tag", ue.tag(e["group"]))
         _set(actor, "lumens", float(e.get("lumens", 700)))
         _set(actor, "kelvin", float(e.get("kelvin", 3000)))
         comp = _ensure_light_component(actor, t)

@@ -7,6 +7,9 @@
 #include "HAL/IConsoleManager.h"
 #include "RHI.h"
 #include "RenderUtils.h"
+#include "InputMappingContext.h"
+#include "InputAction.h"
+#include "InputModifiers.h"
 
 const UNOARSettings* UNOARFunctionLibrary::GetNOARSettings()
 {
@@ -56,7 +59,7 @@ static void SetScalabilityLevelAll(int32 Level)
 
 void UNOARFunctionLibrary::ApplyQualityTier(ENOARQualityTier Tier, bool bHardwareRayTracing)
 {
-	const int32 Level = static_cast<int32>(Tier);
+	const int32 Level = FMath::Clamp(static_cast<int32>(Tier), 1, 4);
 	SetScalabilityLevelAll(Level);
 
 	// Resolution: LOW/MEDIUM upscale through TSR, HIGH/ULTRA native (section 13)
@@ -140,4 +143,53 @@ ENOARQualityTier UNOARFunctionLibrary::TierFromGPUIndex(float GPUIndex)
 	if (GPUIndex < 300.f) return ENOARQualityTier::Medium;
 	if (GPUIndex < 550.f) return ENOARQualityTier::High;
 	return ENOARQualityTier::Ultra;
+}
+
+void UNOARFunctionLibrary::AddKeyMapping(UInputMappingContext* Context, UInputAction* Action, FName KeyName, bool bSwizzleYX, bool bNegate, float DeadZone, float Scale)
+{
+	if (!Context || !Action)
+	{
+		return;
+	}
+	const FKey Key(KeyName);
+	if (!Key.IsValid())
+	{
+		UE_LOG(LogNOAR, Warning, TEXT("AddKeyMapping: unknown key %s"), *KeyName.ToString());
+		return;
+	}
+	Context->Modify();
+	FEnhancedActionKeyMapping& M = Context->MapKey(Action, Key);
+	if (DeadZone > 0.f)
+	{
+		UInputModifierDeadZone* DZ = NewObject<UInputModifierDeadZone>(Context);
+		DZ->LowerThreshold = DeadZone;
+		M.Modifiers.Add(DZ);
+	}
+	if (bSwizzleYX)
+	{
+		UInputModifierSwizzleAxis* Sw = NewObject<UInputModifierSwizzleAxis>(Context);
+		Sw->Order = EInputAxisSwizzle::YXZ;
+		M.Modifiers.Add(Sw);
+	}
+	if (bNegate)
+	{
+		M.Modifiers.Add(NewObject<UInputModifierNegate>(Context));
+	}
+	if (!FMath::IsNearlyEqual(Scale, 1.f))
+	{
+		UInputModifierScalar* Sc = NewObject<UInputModifierScalar>(Context);
+		Sc->Scalar = FVector(Scale, Scale, 1.f);
+		M.Modifiers.Add(Sc);
+	}
+	Context->MarkPackageDirty();
+}
+
+void UNOARFunctionLibrary::ClearKeyMappings(UInputMappingContext* Context)
+{
+	if (Context)
+	{
+		Context->Modify();
+		Context->UnmapAll();
+		Context->MarkPackageDirty();
+	}
 }

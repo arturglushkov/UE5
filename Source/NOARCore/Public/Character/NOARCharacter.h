@@ -54,6 +54,12 @@ public:
 	TObjectPtr<UInputAction> IA_ToggleCamera;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NOAR|Input")
 	TObjectPtr<UInputAction> IA_Zoom;
+	/** Arrow keys turn / tilt the view in both camera modes (trackpad-friendly, no RMB needed) */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NOAR|Input")
+	TObjectPtr<UInputAction> IA_KeyLook;
+	/** Degrees per second for IA_KeyLook */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "NOAR|Input")
+	float KeyLookRate = 90.f;
 
 	UPROPERTY(BlueprintAssignable, Category = "NOAR|Events")
 	FNOAROnCameraModeChanged OnCameraModeChanged;
@@ -81,7 +87,7 @@ public:
 
 	/** Teleport that also resets camera lag */
 	UFUNCTION(BlueprintCallable, Category = "NOAR|Movement")
-	void TeleportTo(const FTransform& Transform);
+	void TeleportToTransform(const FTransform& Transform);
 
 	UFUNCTION(BlueprintCallable, Category = "NOAR|Settings")
 	void ApplySettings();
@@ -101,6 +107,10 @@ protected:
 	void Input_Interact(const FInputActionValue& Value);
 	void Input_ToggleCamera(const FInputActionValue& Value);
 	void Input_Zoom(const FInputActionValue& Value);
+	void Input_KeyLook(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnWalkToRequested(FVector WorldLocation);
 
 	UFUNCTION()
 	void OnMoveToRequested(FVector WorldLocation);

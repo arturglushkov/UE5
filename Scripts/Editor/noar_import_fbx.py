@@ -46,7 +46,29 @@ def _options(collision):
     return o
 
 
+def export_version(export_dir):
+    try:
+        with open(os.path.join(export_dir, "export_version.txt")) as f:
+            return f.read().strip()
+    except Exception:
+        return "v0"
+
+
+def geometry_root(export_dir, dest_root):
+    """Each geometry export is imported into its own folder, so a re-export never fights old assets / names."""
+    return f"{dest_root}/Geometry/G{export_version(export_dir).replace('-', '_')}"
+
+
+def use_legacy_fbx_importer():
+    """UE 5.8 routes .fbx through Interchange, which ignores FbxImportUI (pivots, collision, scale options).
+    The legacy importer keeps each node's pivot as the mesh origin - exactly what the NOAR pipeline needs."""
+    for cmd in ("Interchange.FeatureFlags.Import.FBX False", "Interchange.FeatureFlags.Import.FBX 0"):
+        unreal.SystemLibrary.execute_console_command(None, cmd)
+
+
 def import_room(export_dir, dest_root):
+    use_legacy_fbx_importer()
+    root = geometry_root(export_dir, dest_root)
     tasks = []
     for fn, sub in FILES.items():
         path = os.path.join(export_dir, fn)
@@ -55,7 +77,7 @@ def import_room(export_dir, dest_root):
             continue
         t = unreal.AssetImportTask()
         t.filename = path
-        t.destination_path = f"{dest_root}/{sub}"
+        t.destination_path = f"{root}/{sub}"
         t.automated = True
         t.replace_existing = True
         t.save = True
@@ -63,7 +85,7 @@ def import_room(export_dir, dest_root):
         tasks.append(t)
     unreal.AssetToolsHelpers.get_asset_tools().import_asset_tasks(tasks)
     n = sum(len(t.imported_object_paths) for t in tasks)
-    unreal.log(f"[NOAR] imported {n} assets into {dest_root}")
+    unreal.log(f"[NOAR] imported {n} assets into {root}")
     return n
 
 

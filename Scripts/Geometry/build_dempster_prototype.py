@@ -21,6 +21,9 @@ import bpy
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import noar_geo as g
+import noar_plan_shell
+
+PLAN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "Data", "Dempster", "plan_dempster.json")
 
 OUT = sys.argv[-1] if len(sys.argv) > 1 and not sys.argv[-1].endswith(".py") else os.path.join(os.getcwd(), "Export", "Dempster")
 os.makedirs(OUT, exist_ok=True)
@@ -60,8 +63,8 @@ W_DOORZONE = inch(4, 11)      # 150
 W_TALL = inch(12, 1.5)        # 369
 TALL_D = inch(2, 1)           # 63.5 tall cabinet depth (D2.01)
 TALL_H = inch(7, 2.25)        # 219 existing tall units (D2.02-02)
-HALL_DOOR_W = inch(2, 11.5)   # 89
-HALL_DOOR_H = inch(7, 6)      # 229
+HALL_DOOR_W = 89.8            # D.01 36" (gap measured on D1.00)
+HALL_DOOR_H = inch(8, 0)      # D.01 96" (door schedule D0.01)
 note("Hall door height", "7'-6\"", "door schedule gives 90\" for most interior doors")
 
 # north wall (D2.02-03): 2'-1" end panel | 3'-11 1/2" existing tall | 4'-2" display | 7"
@@ -100,12 +103,11 @@ def build_shell():
     mat_wall, mat_ceil, mat_floor = "PAINT", "CEILING", "FLOOR"
     X1, Y1 = ROOM_W, ROOM_D
 
-    # floor (kitchen + dining) + living stub
-    g.make_box("SM_DEM_ARCH_FLOOR_KITDIN", (0, 0, -2), (X1, Y1, 0), mat_floor, col=col, bevel_mm=0)
-    g.make_box("SM_DEM_ARCH_FLOOR_LIV", (KIT_N_W, Y1, -2), (X1, Y1 + LIV_D, 0), mat_floor, col=col, bevel_mm=0)
-
-    # ceilings
-    g.make_box("SM_DEM_ARCH_CEIL_BASE", (0, 0, CEIL), (X1, Y1 + LIV_D, CEIL + 2), mat_ceil, col=col, bevel_mm=0)
+    if not os.path.exists(PLAN):
+        # floor (kitchen + dining) + living stub, base ceiling - the plan shell builds these for the whole apartment
+        g.make_box("SM_DEM_ARCH_FLOOR_KITDIN", (0, 0, -2), (X1, Y1, 0), mat_floor, col=col, bevel_mm=0)
+        g.make_box("SM_DEM_ARCH_FLOOR_LIV", (KIT_N_W, Y1, -2), (X1, Y1 + LIV_D, 0), mat_floor, col=col, bevel_mm=0)
+        g.make_box("SM_DEM_ARCH_CEIL_BASE", (0, 0, CEIL), (X1, Y1 + LIV_D, CEIL + 2), mat_ceil, col=col, bevel_mm=0)
     # kitchen dropped ceiling 8'-6" over the kitchen zone (x 0..330)
     g.make_box("SM_DEM_ARCH_SOFFIT_KIT", (0, 0, CEIL_KIT), (KIT_N_W, Y1, CEIL), mat_ceil, col=col, bevel_mm=2)
     # kitchen ceiling feature MD01: three layered painted MDF strips (PT03 Iron Mountain accent) - D1.01 / precedent
@@ -117,6 +119,16 @@ def build_shell():
     g.make_box("SM_DEM_ARCH_SOFFIT_DIN_RIM", (KIT_N_W, 0, CEIL - 12), (X1, Y1, CEIL), mat_ceil, col=col, bevel_mm=2)
     note("Dining cove", "30 cm perimeter recess, 8 cm deep, LED on the inner lip", "ceiling detail D3.00 not in the set")
 
+    DOOR_Y0 = 0.0     # D.01 sits in the SW corner of the kitchen (D1.00)
+    if os.path.exists(PLAN):
+        noar_plan_shell.build(PLAN, CEIL, note)
+        g.make_box("SM_DEM_ARCH_DRAPERY_POCKET", (X1 - 30, 0, CEIL - 1), (X1, Y1, CEIL + 0.5), mat_ceil, col=col, bevel_mm=0)
+        for i, (ya, yb) in enumerate([(0, 70), (450, Y1)]):
+            g.make_box(f"SM_DEM_ARCH_DRAPE_{i+1:02d}", (X1 - 22, ya, 2), (X1 - 10, yb, CEIL - 2), "FABRIC", col=col, bevel_mm=0)
+        _hall_door(col)
+        return
+
+    # ---- fallback (no plan json): prototype shell with assumed walls
     # walls (15 cm, height CEIL)
     # south wall: opening to hall at x S_A+S_FEAT .. +S_OPEN, full height to 230
     OPEN_X0 = S_A + S_FEAT
@@ -125,8 +137,7 @@ def build_shell():
     g.make_box("SM_DEM_ARCH_WALL_S_A", (-WALL_T, -WALL_T, 0), (OPEN_X0, 0, CEIL + 2), mat_wall, col=col, bevel_mm=3)
     g.make_box("SM_DEM_ARCH_WALL_S_B", (OPEN_X0 + S_OPEN, -WALL_T, 0), (X1 + WALL_T, 0, CEIL + 2), mat_wall, col=col, bevel_mm=3)
     g.make_box("SM_DEM_ARCH_WALL_S_LINTEL", (OPEN_X0, -WALL_T, OPEN_H), (OPEN_X0 + S_OPEN, 0, CEIL + 2), mat_wall, col=col, bevel_mm=3)
-    # west wall with hall door opening (y 30..119)
-    DOOR_Y0 = 30.0
+    # west wall with hall door opening
     g.make_box("SM_DEM_ARCH_WALL_W_A", (-WALL_T, -WALL_T, 0), (0, DOOR_Y0, CEIL + 2), mat_wall, col=col, bevel_mm=3)
     g.make_box("SM_DEM_ARCH_WALL_W_B", (-WALL_T, DOOR_Y0 + HALL_DOOR_W, 0), (0, Y1 + WALL_T, CEIL + 2), mat_wall, col=col, bevel_mm=3)
     g.make_box("SM_DEM_ARCH_WALL_W_LINTEL", (-WALL_T, DOOR_Y0, HALL_DOOR_H), (0, DOOR_Y0 + HALL_DOOR_W, CEIL + 2), mat_wall, col=col, bevel_mm=3)
@@ -189,7 +200,11 @@ def build_shell():
     for i, (ya, yb) in enumerate([(0, 70), (450, Y1), (Y1, Y1 + 50), (Y1 + 450, Y1 + LIV_D)]):
         g.make_box(f"SM_DEM_ARCH_DRAPE_{i+1:02d}", (X1 - 22, ya, 2), (X1 - 10, yb, CEIL - 2), "FABRIC", col=col, bevel_mm=0)
 
-    # hall door D.07-type (swing, 2'-11 1/2" x 7'-6", stained M01, HW01): interactive, pivot on hinge (jamb at y=DOOR_Y0), opens into hall (-X)
+    _hall_door(col)
+
+
+def _hall_door(col, DOOR_Y0=0.0):
+    # entry door D.01 (swing 36" x 96"): interactive, pivot on the hinge jamb at y=DOOR_Y0, opens out into the shared hall (-X)
     frame = [((-WALL_T - 1, DOOR_Y0 - 5, 0), (1, DOOR_Y0, HALL_DOOR_H + 5), "WOOD"),
              ((-WALL_T - 1, DOOR_Y0 + HALL_DOOR_W, 0), (1, DOOR_Y0 + HALL_DOOR_W + 5, HALL_DOOR_H + 5), "WOOD"),
              ((-WALL_T - 1, DOOR_Y0 - 5, HALL_DOOR_H), (1, DOOR_Y0 + HALL_DOOR_W + 5, HALL_DOOR_H + 5), "WOOD")]
@@ -375,7 +390,10 @@ def build_kitchen():
 def build_dining():
     col = "Millwork"
     # ---- south feature wall (D2.02-01): M01 millwork + GL01 bronze mirror panels in 3 rows, SS02 stone band on top, 3/4" reveals
-    x0 = S_A
+    # D2.02-01 is drawn looking SOUTH, so the viewer's left is EAST: return | feature | opening | cabinets runs east -> west
+    RET_X0 = ROOM_W - S_A                 # 602..691 return panel
+    x0 = RET_X0 - S_FEAT                  # 286..602 feature wall (sits on the W.I.C. north wall, D1.00)
+    OPEN_X0 = x0 - S_OPEN                 # 176..286 opening to the hall
     row_h = inch(2, 2.25)          # 66.7
     reveal = 1.9
     plinth = inch(1, 0)            # 30
@@ -393,38 +411,38 @@ def build_dining():
     for r, row in enumerate(rows):
         z0 = plinth + r * (row_h + reveal)
         z1 = z0 + row_h
-        x = x0
+        x = x0 + S_FEAT                   # start at the east end (viewer's left) and go west
         listed = sum(w for _, w in row if w is not None)
         scale = (S_FEAT - inch(1, 0)) / listed          # last panel = 12", the rest scaled to fit the 10'-4 1/4" wall
         for k, (kind, w) in enumerate(row):
             if w is None:
-                w = x0 + S_FEAT - x
+                w = x - x0
             else:
                 w *= scale
             if kind == "W":
-                parts_w.append(((x, 2.0, z0), (x + w - reveal, 2.0 + 2.0, z1), "PANEL"))
+                parts_w.append(((x - w + reveal, 2.0, z0), (x, 2.0 + 2.0, z1), "PANEL"))
             else:
-                parts_m.append(((x, 2.0, z0), (x + w - reveal, 2.0 + 0.6, z1), "MIRROR_BRONZE"))
-            x += w
+                parts_m.append(((x - w + reveal, 2.0, z0), (x, 2.0 + 0.6, z1), "MIRROR_BRONZE"))
+            x -= w
     g.make_parts("SM_DEM_DIN_P01_PANELS_WOOD", parts_w, col=col, bevel_mm=1)
     PLACEMENT["SM_DEM_DIN_P01_PANELS_WOOD"] = dict(mechanism="Static", configurable="Configurable.WallPanel.Dining", slot="PANEL")
     g.make_parts("SM_DEM_DIN_P01_PANELS_MIRROR", parts_m, col=col, bevel_mm=0.5)
     g.make_box("SM_DEM_DIN_P01_STONE_BAND", (x0, 0, band_top + 1), (x0 + S_FEAT, 2.5, CEIL), "STONE_BLUE", col=col, bevel_mm=2)
     PLACEMENT["SM_DEM_DIN_P01_STONE_BAND"] = dict(mechanism="Static", configurable="Configurable.FeatureStone.Dining", slot="STONE_BLUE")
     # left return 2'-11 1/4": wood panel
-    g.make_box("SM_DEM_DIN_P01_RETURN", (0, 0, 0), (S_A, 2.0, CEIL), "PANEL", col=col, bevel_mm=1)
+    g.make_box("SM_DEM_DIN_P01_RETURN", (RET_X0, 0, 0), (ROOM_W, 2.0, CEIL), "PANEL", col=col, bevel_mm=1)
     # opening trim (M01 casing 2" x 3/4")
-    ox = S_A + S_FEAT
+    ox = OPEN_X0
     g.make_parts("SM_DEM_DIN_OPENING_CASING", [((ox - 5, 0, 0), (ox, 2.0, 232), "WOOD"), ((ox + S_OPEN, 0, 0), (ox + S_OPEN + 5, 2.0, 232), "WOOD"),
                                                 ((ox - 5, 0, 230), (ox + S_OPEN + 5, 2.0, 235), "WOOD")], col=col, bevel_mm=1)
     # ---- tall M01 cabinets right of the opening (5'-9" = 2 doors), depth 45, height to the stone band, top band continues
-    cx0 = ox + S_OPEN
-    cab_d = 45.0
+    cx0 = 0.0                             # 0..176: cabinets in the kitchen's SE corner, next to entry door D.01
+    cab_d = 30.0
     # yaw 90: local +Y = world -X -> origin at the east end of the unit
-    note("Dining tall cabinet depth", "45 cm", "D2.02-01 gives width 5'-9\" and door heights only")
+    note("South tall cabinet depth", "30 cm (12\")", "D2.02-01 gives width 5'-9\" only; shallow so the entry door D.01 beside it stays usable")
     unit("SM_DEM_DIN_T01", (cx0 + S_CAB, cab_d, 0), 90, S_CAB, band_top, cab_d,
          [dict(name="DOOR_01_L", side="L", w=S_CAB / 2, z0=0, h=band_top), dict(name="DOOR_02_R", side="R", w=S_CAB / 2, z0=0, h=band_top)], shelves=4, mat_front="PANEL", mat_carc="CARCASS", toe=False)
-    g.make_box("SM_DEM_DIN_T01_BAND", (cx0, 0, band_top + 1), (ROOM_W, cab_d, CEIL), "STONE_BLUE", col=col, bevel_mm=2)
+    g.make_box("SM_DEM_DIN_T01_BAND", (cx0, 0, band_top + 1), (cx0 + S_CAB, cab_d, CEIL), "STONE_BLUE", col=col, bevel_mm=2)
 
     # ---- table, chairs, chandelier
     fc = "Furniture"
@@ -453,7 +471,7 @@ def build_dining():
         for j, yy in enumerate([130, 390]):
             LIGHTS.append(dict(name=f"L03_DIN_{i+1}{j+1}", type="Spot", group="LightGroup.Dining.Ambient", lumens=700, kelvin=3000, ies="IES_Downlight_36deg", pos=(x, yy, CEIL_DIN - 1), dir=(0, 0, -1)))
             g.make_box(f"SM_DEM_DIN_LIGHT_L03_{i+1}{j+1}", (x - 5, yy - 5, CEIL_DIN - 0.5), (x + 5, yy + 5, CEIL_DIN), "PAINT", col=fc, bevel_mm=0.5)
-    for i, x in enumerate([150, 250, 350]):
+    for i, x in enumerate([360, 445, 530]):
         LIGHTS.append(dict(name=f"L06_DIN_WASH_{i+1}", type="Spot", group="LightGroup.Dining.Accent", lumens=400, kelvin=2700, ies="IES_WallWasher", pos=(x, 45, CEIL_DIN - 1), dir=(0, -0.45, -1)))
     # cove LED around the dining soffit
     for nm, a, b, d in [("S", (KIT_N_W + 32, 31, CEIL - 6), (ROOM_W - 32, 32, CEIL - 5), (0, 1, 0.3)), ("N", (KIT_N_W + 32, ROOM_D - 32, CEIL - 6), (ROOM_W - 32, ROOM_D - 31, CEIL - 5), (0, -1, 0.3)),
@@ -464,11 +482,40 @@ def build_dining():
                            pos=((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, CEIL - 5.5), dir=d, size=(max(b[0] - a[0], b[1] - a[1]) - 4, 1.0)))
 
     # ---- light switches: by the hall opening (dining) and by the hall door (kitchen)
-    for nm, pos, yaw, groups in [("SM_DEM_DIN_SW01", (S_A + S_FEAT - 12, 2.5, 110), 90, ["LightGroup.Dining"]),
+    for nm, pos, yaw, groups in [("SM_DEM_DIN_SW01", (ROOM_W - S_A - S_FEAT + 10, 4.5, 110), 90, ["LightGroup.Dining"]),
                                  ("SM_DEM_KIT_SW01", (2.5, W_DOORZONE - 20, 110), 0, ["LightGroup.Kitchen"])]:
         g.make_parts(nm + "_PLATE", [((0, -6, -6), (0.6, 6, 6), "PAINT")], pivot=pos, yaw=yaw, col=col, bevel_mm=0.5)
         g.make_parts(nm + "_ROCKER", [((0.6, -1.6, -3.2), (1.2, 1.6, 3.2), "PAINT")], pivot=pos, yaw=yaw, col=col, bevel_mm=0.3)
         PLACEMENT[nm + "_ROCKER"] = dict(mechanism="Switch", groups=groups, plate=nm + "_PLATE")
+
+
+# ======================================================================= rest of the apartment (shell only for now)
+ROOMS_REST = [  # name, centre (UE cm, from the D1.00 room labels), light group, downlight offsets
+    ("LIV", (767, 700), "LightGroup.Living.Ambient", [(-130, -110), (130, -110), (-130, 110), (130, 110)]),
+    ("FOY", (373, 650), "LightGroup.Foyer.Accent", [(0, 40), (0, -60)]),
+    ("HAL", (243, -235), "LightGroup.Foyer.Accent", [(0, 60), (0, -60)]),
+    ("PBR", (661, -850), "LightGroup.Primary.Ambient", [(-90, -70), (90, -70), (-90, 70), (90, 70)]),
+    ("PEN", (632, -480), "LightGroup.Ensuite.Ambient", [(-60, 0), (60, 0)]),
+    ("WIC", (514, -130), "LightGroup.WIC.Cabinet", [(-60, 0), (60, 0)]),
+    ("GBR", (-39, -760), "LightGroup.Guest.Ambient", [(-60, -50), (60, -50), (0, 70)]),
+    ("GEN", (-95, -400), "LightGroup.Guest.Ambient", [(0, 0)]),
+    ("DEN", (270, -760), "LightGroup.Den.Ambient", [(-60, -50), (60, -50), (0, 70)]),
+    ("PWD", (127, -250), "LightGroup.Powder.Ambient", [(0, 0)]),
+    ("LAU", (344, -342), "LightGroup.Foyer.Accent", [(0, 0)]),
+    ("WCL", (590, -338), "LightGroup.Ensuite.Ambient", [(0, 0)]),
+]
+
+
+def build_rooms():
+    if not os.path.exists(PLAN):
+        return
+    for code, (cx, cy), group, offs in ROOMS_REST:
+        for k, (dx, dy) in enumerate(offs):
+            x, y = cx + dx, cy + dy
+            LIGHTS.append(dict(name=f"L03_{code}_{k+1:02d}", type="Spot", group=group, lumens=650, kelvin=3000, ies="IES_Downlight_36deg",
+                               pos=(x, y, CEIL - 1), dir=(0, 0, -1)))
+            g.make_box(f"SM_DEM_{code}_LIGHT_L03_{k+1:02d}", (x - 5, y - 5, CEIL - 0.5), (x + 5, y + 5, CEIL), "PAINT", col="Furniture", bevel_mm=0.5)
+    note("Other rooms", "shell + downlights only (doors open, no millwork yet)", "D2.03-D2.13 millwork is the next build step")
 
 
 # ======================================================================= export
@@ -482,7 +529,8 @@ def export(col_names, path):
         for ob in c.objects:
             ob.select_set(True)
             n += 1
-    bpy.ops.export_scene.fbx(filepath=path, use_selection=True, apply_unit_scale=True, apply_scale_options="FBX_SCALE_NONE",
+    bpy.ops.export_scene.fbx(filepath=path, use_selection=True, apply_unit_scale=True, apply_scale_options="FBX_SCALE_ALL",  # unit scale goes to the FBX header, nodes stay at scale 1 (UE drops node transforms)
+                            
                              bake_space_transform=False, object_types={"MESH"}, use_mesh_modifiers=True, mesh_smooth_type="FACE",
                              use_tspace=True, add_leaf_bones=False, path_mode="AUTO", axis_forward="-Z", axis_up="Y")
     print(f"[NOAR] exported {n} objects -> {path}")
@@ -513,14 +561,18 @@ def write_sidecars():
 def main():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.context.scene.unit_settings.system = "METRIC"
-    bpy.context.scene.unit_settings.scale_length = 1.0
+    bpy.context.scene.unit_settings.scale_length = 0.01   # 1 BU = 1 cm (see noar_geo.CM)
     build_shell()
     build_kitchen()
     build_dining()
+    build_rooms()
     write_sidecars()
     export(["Architecture"], os.path.join(OUT, "SM_DEM_PROTO_Architecture.fbx"))
     export(["Millwork"], os.path.join(OUT, "SM_DEM_PROTO_Millwork.fbx"))
     export(["Furniture"], os.path.join(OUT, "SM_DEM_PROTO_Furniture.fbx"))
+    import time
+    with open(os.path.join(OUT, "export_version.txt"), "w") as f:
+        f.write(time.strftime("%Y%m%d-%H%M%S"))
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT, "DEM_Prototype.blend"))
     print(f"[NOAR] {len(bpy.data.objects)} objects, {len(ASSUMED)} assumptions -> {OUT}")
 

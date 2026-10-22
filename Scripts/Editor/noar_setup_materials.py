@@ -102,9 +102,21 @@ def _vector(m, name, default, x, y, group="NOAR"):
     return n
 
 
+_DEFAULT_TEX = {
+    # a texture parameter without a texture is a compile error (UE then shows the checker WorldGridMaterial)
+    "SAMPLERTYPE_COLOR": "/Engine/EngineResources/DefaultTexture.DefaultTexture",
+    "SAMPLERTYPE_NORMAL": "/Engine/EngineMaterials/FlatNormal.FlatNormal",
+}
+
+
 def _texture(m, name, x, y, sampler="SAMPLERTYPE_COLOR"):
+    if sampler not in _DEFAULT_TEX:
+        sampler = "SAMPLERTYPE_COLOR"   # ORM uses the colour sampler with the engine default texture until real maps exist
     n = mel.create_material_expression(m, unreal.MaterialExpressionTextureSampleParameter2D, x, y)
     n.set_editor_property("parameter_name", name)
+    tex = unreal.load_asset(_DEFAULT_TEX[sampler])
+    if tex:
+        n.set_editor_property("texture", tex)
     n.set_editor_property("sampler_type", getattr(unreal.MaterialSamplerType, sampler))
     n.set_editor_property("group", "NOAR Textures")
     return n
@@ -119,7 +131,7 @@ def _connect(a, a_out, b, b_in):
 
 
 def _build_opaque():
-    m = _new_material("M_Master_Opaque")
+    m = _new_material("M_Master_Opaque_v2")   # v1 failed to compile (texture params without textures)
     if mel.get_num_material_expressions(m) > 0:
         return m
     # UVs: TexCoord * Tiling
@@ -241,6 +253,7 @@ def _instance(folder, name, master, params):
         mi = eal.load_asset(path)
     else:
         mi = asset_tools.create_asset(name, folder, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+    if mi.get_editor_property("parent") != master:
         mel.set_material_instance_parent(mi, master)
     for k, v in params.items():
         if isinstance(v, tuple):

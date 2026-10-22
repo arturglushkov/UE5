@@ -12,13 +12,13 @@ Everything else is taken from D1.00/D1.01/D2.01/D2.02 (ID drawings 09.30.2026).
 | Living room | stub 361 x 500 cm north of dining (real 505 x 516) | prototype scope; full room in Phase 9 |
 | Kitchen ceiling feature MD01 | 3 strips 80 cm wide, 4 cm drop | detail D3.00 not in the set |
 | Dining cove | 30 cm perimeter recess, 8 cm deep, LED on the inner lip | ceiling detail D3.00 not in the set |
-| Hall opening height | 230 cm | D2.02-01 'OPEN TO HALL' height 8'-5 1/4" scaled |
-| Balcony glazing | floor-to-ceiling 260 cm, sliders 100 cm panels | existing condo glazing, no dims in the set |
-| Hall stubs | 2 m deep corridors behind the south opening and the west door, 244 cm ceiling | hall is outside prototype scope (Phase 9) |
+| Glazing | floor-to-ceiling 260 cm in ~1 m panels on every exterior opening | window sizes are architectural, not in the ID set |
+| Balcony outline | trapezoid traced from D1.00 (east edge slanted), glass rail 107 cm | architectural set not provided |
 | Tall run split | pantry 29" + appliance tower 30" + fridge 36" + freezer 36" + pantry 14" | plan labels only; widths estimated to fill 12'-1 1/2" |
 | Display base depth | 45 cm (18") | D2.02-03 shows a shallow stone base; depth not dimensioned |
 | Island layout (working side, S->N) | dishwasher 24" / sink base 36" / drawers 24" / drawers 24" / doors 34"; cooktop over the drawer stacks | D2.01 shows sink and cooktop on the island; cabinet split estimated |
 | Feature wall panel rhythm | widths read off D2.02-01 per row, scaled ~0.93 to fit 10'-4 1/4"; last panel 12" | listed widths over-sum the wall by 2-7%; reveal 3/4" |
-| Dining tall cabinet depth | 45 cm | D2.02-01 gives width 5'-9" and door heights only |
+| South tall cabinet depth | 30 cm (12") | D2.02-01 gives width 5'-9" only; shallow so the entry door D.01 beside it stays usable |
+| Other rooms | shell + downlights only (doors open, no millwork yet) | D2.03-D2.13 millwork is the next build step |
 
-Objects: 149; lights: 25.
+Objects: 166; lights: 51.

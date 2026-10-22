@@ -19,14 +19,16 @@ public class NOARCore : ModuleRules
 			"DeveloperSettings",
 			"EnhancedInput",
 			"AIModule",
-			"NavigationSystem"
+			"NavigationSystem",
+			"UMG",
+			"Slate",
+			"SlateCore"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
 			"RenderCore",
-			"RHI",
-			"SynthBenchmark"
+			"RHI"
 		});
 
 		PublicIncludePaths.AddRange(new string[] { ModuleDirectory + "/Public" });

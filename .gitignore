@@ -45,5 +45,5 @@ __pycache__/
 *.pyc
 
 # Geometry exports: FBX/.blend stay local (above); sidecars are copied to Data/<Apt>/Prototype/ for git
-Export/
+Export/*
 !Export/.gitkeep

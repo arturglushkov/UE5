@@ -7,7 +7,8 @@
 #include "Internationalization/Internationalization.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
-#include "SynthBenchmark.h"
+#include "GameFramework/GameUserSettings.h"
+#include "Engine/Engine.h"
 
 void UNOARGameInstance::Init()
 {
@@ -129,9 +130,13 @@ void UNOARGameInstance::AutoDetectQualityIfNeeded()
 		UNOARFunctionLibrary::ApplyQualityTier(Settings->QualityTier, Settings->bHardwareRayTracing);
 		return;
 	}
-	FSynthBenchmarkResults Results;
-	ISynthBenchmark::Get().Run(Results, true, 1.f);
-	const float GPUIndex = Results.ComputeGPUPerfIndex();
+	// UGameUserSettings wraps the synth benchmark with an exported API (5.x)
+	float GPUIndex = 300.f;
+	if (UGameUserSettings* GUS = GEngine ? GEngine->GetGameUserSettings() : nullptr)
+	{
+		GUS->RunHardwareBenchmark(10, 1.f, 1.f);
+		GPUIndex = GUS->GetLastGPUBenchmarkResult();
+	}
 	ENOARQualityTier Tier = UNOARFunctionLibrary::TierFromGPUIndex(GPUIndex);
 	if (UNOARFunctionLibrary::IsMac() && static_cast<int32>(Tier) > static_cast<int32>(ENOARQualityTier::Medium))
 	{

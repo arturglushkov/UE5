@@ -21,6 +21,7 @@ What this script cannot do from Python and is left for the editor (5 minutes, li
 """
 import os
 import unreal
+import noar_ue as ue
 
 eal = unreal.EditorAssetLibrary
 asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
@@ -129,7 +130,7 @@ def _data_asset(folder, name, cls):
 
 def _group_state(tag, on, dimmer=1.0):
     s = unreal.NOARLightGroupState()
-    _set(s, "group", unreal.GameplayTag(tag_name=tag))
+    _set(s, "group", ue.tag(tag))
     _set(s, "on", on)
     _set(s, "dimmer", dimmer)
     return s
@@ -139,15 +140,15 @@ def build_data(apt_root, apt_id, data_dir):
     d = f"{apt_root}/Data"
     presets = []
     spec = [
-        ("Day", unreal.ENOARLightingPreset.DAY, dict(sun_lux=75000.0, sun_elevation=38.0, sun_azimuth=120.0, sun_kelvin=5500.0, sky_light_intensity=1.0,
+        ("Day", ue.enum("ENOARLightingPreset").DAY, dict(sun_lux=75000.0, sun_elevation=38.0, sun_azimuth=120.0, sun_kelvin=5500.0, sky_light_intensity=1.0,
                                                      exposure_compensation=0.3, white_balance_kelvin=6000.0, backdrop_index=0),
          [("LightGroup.Kitchen.Cabinet", True), ("LightGroup.Dining.Cove", True, 0.6), ("LightGroup.Kitchen.Ambient", False), ("LightGroup.Dining.Ambient", False),
           ("LightGroup.Dining.Pendant", False), ("LightGroup.Dining.Accent", False), ("LightGroup.Kitchen.Cove", True, 0.6)]),
-        ("Evening", unreal.ENOARLightingPreset.EVENING, dict(sun_lux=8000.0, sun_elevation=6.0, sun_azimuth=265.0, sun_kelvin=3200.0, sky_light_intensity=0.6,
+        ("Evening", ue.enum("ENOARLightingPreset").EVENING, dict(sun_lux=8000.0, sun_elevation=6.0, sun_azimuth=265.0, sun_kelvin=3200.0, sky_light_intensity=0.6,
                                                              exposure_compensation=0.6, white_balance_kelvin=5200.0, backdrop_index=1),
          [("LightGroup.Kitchen.Cabinet", True), ("LightGroup.Dining.Cove", True), ("LightGroup.Kitchen.Ambient", True, 0.7), ("LightGroup.Dining.Ambient", True, 0.6),
           ("LightGroup.Dining.Pendant", True, 0.8), ("LightGroup.Dining.Accent", True), ("LightGroup.Kitchen.Cove", True)]),
-        ("Night", unreal.ENOARLightingPreset.NIGHT, dict(sun_lux=0.0, sun_elevation=-20.0, sun_azimuth=0.0, sun_kelvin=4000.0, sky_light_intensity=0.15,
+        ("Night", ue.enum("ENOARLightingPreset").NIGHT, dict(sun_lux=0.0, sun_elevation=-20.0, sun_azimuth=0.0, sun_kelvin=4000.0, sky_light_intensity=0.15,
                                                          exposure_compensation=0.9, white_balance_kelvin=4200.0, backdrop_index=2),
          [("LightGroup.Kitchen.Cabinet", True, 0.8), ("LightGroup.Dining.Cove", True, 0.7), ("LightGroup.Kitchen.Ambient", True, 0.5), ("LightGroup.Dining.Ambient", True, 0.4),
           ("LightGroup.Dining.Pendant", True), ("LightGroup.Dining.Accent", True, 0.8), ("LightGroup.Kitchen.Cove", True, 0.8)]),
@@ -164,15 +165,23 @@ def build_data(apt_root, apt_id, data_dir):
 
     rooms = []
     for rid, disp, zone, loc, yaw, slots, order in [
-        ("KIT", "Kitchen", "Zone.Kitchen", (330, 330, 0), 180.0, ["Configurable.CabinetFinish.Kitchen", "Configurable.Countertop.Kitchen"], 0),
-        ("DIN", "Dining", "Zone.Dining", (450, 300, 0), -90.0, ["Configurable.WallPanel.Dining", "Configurable.FeatureStone.Dining", "Configurable.Paint.Walls"], 1),
+        ("FOY", "Entry", "Zone.Foyer", (373, 600, 95), -90.0, [], 0),
+        ("LIV", "Living", "Zone.Living", (620, 640, 95), 30.0, ["Configurable.WallPanel.Living", "Configurable.Fabric.Living"], 1),
+        ("KIT", "Kitchen", "Zone.Kitchen", (125, 330, 95), 0.0, ["Configurable.CabinetFinish.Kitchen", "Configurable.Countertop.Kitchen"], 2),
+        ("DIN", "Dining", "Zone.Dining", (640, 70, 95), 150.0, ["Configurable.WallPanel.Dining", "Configurable.FeatureStone.Dining", "Configurable.Paint.Walls"], 3),
+        ("PBR", "Primary bedroom", "Zone.Primary", (560, -720, 95), -60.0, [], 4),
+        ("PEN", "Primary ensuite", "Zone.Ensuite", (600, -470, 95), 0.0, [], 5),
+        ("WIC", "Walk-in closet", "Zone.WIC", (514, -140, 95), 0.0, [], 6),
+        ("GBR", "Guest bedroom", "Zone.Guest", (-40, -700, 95), -90.0, [], 7),
+        ("DEN", "Den", "Zone.Den", (270, -700, 95), -90.0, [], 8),
+        ("PWD", "Powder room", "Zone.Powder", (127, -250, 95), 180.0, [], 9),
     ]:
         da = _data_asset(d, f"DA_Room_{rid}", _cpp("NOARRoomData"))
         _set(da, "room_id", rid)
         _set(da, "display_name", unreal.Text(disp))
-        _set(da, "zone_tag", unreal.GameplayTag(tag_name=zone))
-        _set(da, "teleport_transform", unreal.Transform(unreal.Vector(*loc), unreal.Rotator(0, yaw, 0), unreal.Vector(1, 1, 1)))
-        _set(da, "configurable_slots", [unreal.GameplayTag(tag_name=s) for s in slots])
+        _set(da, "zone_tag", ue.tag(zone))
+        _set(da, "teleport_transform", unreal.Transform(unreal.Vector(*loc), ue.rot(yaw=yaw), unreal.Vector(1, 1, 1)))
+        _set(da, "configurable_slots", [ue.tag(s) for s in slots])
         _set(da, "sort_order", order)
         eal.save_loaded_asset(da)
         rooms.append(da)
@@ -193,18 +202,26 @@ def build_data(apt_root, apt_id, data_dir):
     _set(apt, "light_presets", presets)
     if table:
         _set(apt, "finish_options", table)
-    _set(apt, "start_transform", unreal.Transform(unreal.Vector(450, 300, 95), unreal.Rotator(0, 180, 0), unreal.Vector(1, 1, 1)))
-    _set(apt, "level", unreal.SoftObjectPath(f"{apt_root}/Maps/L_DEM_Prototype"))
+    _set(apt, "start_transform", unreal.Transform(unreal.Vector(640, 70, 95), ue.rot(yaw=150), unreal.Vector(1, 1, 1)))
+    try:
+        lvl_path = f"{apt_root}/Maps/L_DEM_Prototype"
+        if eal.does_asset_exist(lvl_path):
+            _set(apt, "level", eal.load_asset(lvl_path))
+    except Exception as e:  # noqa
+        unreal.log_warning(f"[NOAR] DA_Apartment.Level not set: {e}")
     eal.save_loaded_asset(apt)
     return apt, presets
 
 
 # ---------------------------------------------------------------- level
 def _spawn(cls, label, loc=(0, 0, 0), rot=(0, 0, 0)):
+    """rot = (pitch, yaw, roll). An existing actor is moved/rotated too, so re-runs fix earlier placements."""
+    r = ue.rot(pitch=rot[0], yaw=rot[1], roll=rot[2])
     for a in actor_sub.get_all_level_actors():
         if a.get_actor_label() == label:
+            a.set_actor_location_and_rotation(unreal.Vector(*loc), r, False, False)
             return a
-    a = actor_sub.spawn_actor_from_class(cls, unreal.Vector(*loc), unreal.Rotator(*rot))
+    a = actor_sub.spawn_actor_from_class(cls, unreal.Vector(*loc), r)
     a.set_actor_label(label)
     return a
 
@@ -224,13 +241,13 @@ def build_level(apt_root, apartment_da, presets, bps):
     _set(sc, "cast_shadows", True)
     _set(sc, "dynamic_shadow_distance_movable_light", 3000.0)
     _set(sc, "light_source_angle", 0.6)
-    sun.set_mobility(unreal.ComponentMobility.MOVABLE)
+    ue.set_mobility(sun, unreal.ComponentMobility.MOVABLE)
 
     sky = _spawn(unreal.SkyLight, "SkyLight", (0, 0, 600))
     skc = sky.get_component_by_class(unreal.SkyLightComponent)
     _set(skc, "real_time_capture", True)
     _set(skc, "intensity", 1.0)
-    sky.set_mobility(unreal.ComponentMobility.MOVABLE)
+    ue.set_mobility(sky, unreal.ComponentMobility.MOVABLE)
     _spawn(unreal.SkyAtmosphere, "SkyAtmosphere")
     fog = _spawn(unreal.ExponentialHeightFog, "HeightFog")
     fc = fog.get_component_by_class(unreal.ExponentialHeightFogComponent)
@@ -254,7 +271,10 @@ def build_level(apt_root, apartment_da, presets, bps):
         _set(s, k, v)
     _set(pp, "settings", s)
 
-    _spawn(unreal.PlayerStart, "PlayerStart_Dining", (450, 300, 95), (0, 180, 0))
+    # navigation for click-to-walk: one bounds volume over the whole prototype (default brush is a 200 cm cube)
+    nav = _spawn(unreal.NavMeshBoundsVolume, "NavBounds_Apartment", (345, 500, 120))
+    nav.set_actor_scale3d(unreal.Vector(6.0, 8.0, 1.6))
+    _spawn(unreal.PlayerStart, "PlayerStart_Dining", (640, 70, 95), (0, 150, 0))
 
     dn_cls = unreal.load_object(None, bps["BP_DayNightManager"].get_path_name() + "_C") or _cpp("NOARDayNightManager")
     dn = _spawn(dn_cls, "DayNightManager", (0, 0, 0))

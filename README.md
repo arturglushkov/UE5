@@ -29,6 +29,8 @@ Source/
     Public/Core/                     ANOARPlayerController, ANOARGameMode, UNOARGameInstance (+SaveGame), UNOARApartmentSubsystem
     Public/Configurator/             UNOARConfigurableSurfaceComponent, UNOARConfiguratorSubsystem
     Public/Data/                     UNOARApartmentData, UNOARRoomData, UNOARLightPreset, UNOARProductData
+    Public/UI/                       UNOARHUDWidget (toolbar, prompt, hints, toast, panel host) + panels built in code:
+                                     Finishes, Rooms, Lighting, Menu, Product, Photo overlay - no WBP_ needed to run
 Scripts/Editor/                # UE Python editor utilities (run from Editor > Tools > Execute Python Script)
   noar_validate_export.py      # pivot / scale / naming validation for interactive millwork
   noar_import_spec.py          # CSV (designer spec) -> DA_Product / DT_FinishOptions
@@ -72,7 +74,7 @@ Docs/
 | Blueprint | Parent | What you set |
 | --- | --- | --- |
 | `BP_NOAR_Character` | `ANOARCharacter` | Skeletal mesh (Manny), ABP, `WalkContext` + IA_* assets |
-| `BP_NOAR_PlayerController` | `ANOARPlayerController` | `UIContext`, `PhotoContext`, IA_*; create WBP_* widgets on `OnUIRequest` |
+| `BP_NOAR_PlayerController` | `ANOARPlayerController` | `UIContext`, `PhotoContext`, IA_*; `HUDClass` (default: the C++ HUD; a `WBP_NOAR_HUD` subclass restyles it) |
 | `BP_NOAR_GameMode` | `ANOARGameMode` | `Apartment` = DA_Apartment_DEMPSTER; set as the level's GameMode override |
 | `BP_InteractiveDoor` / `Drawer` / `Flap` / `SlidingDoor` / `Pocket` | `ANOARInteractive*` | Sounds; per-instance mesh and parameters are set by `noar_millwork_assembler.py` |
 | `BP_InteractiveLight_Downlight` / `_LED` / `_Pendant` | `ANOARInteractiveLight` | Add Spot / Rect / Point light components, strip mesh with `M_Master_Emissive` |

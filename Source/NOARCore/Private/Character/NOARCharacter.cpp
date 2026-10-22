@@ -76,7 +76,9 @@ void ANOARCharacter::BeginPlay()
 	Super::BeginPlay();
 	ApplySettings();
 	Interaction->OnMoveToRequested.AddDynamic(this, &ANOARCharacter::OnMoveToRequested);
-	SetCameraMode(ENOARCameraMode::ThirdPerson);
+	Interaction->OnWalkToRequested.AddDynamic(this, &ANOARCharacter::OnWalkToRequested);
+	// no character mesh assigned yet (Third Person pack not added): start in first person so the view is not an empty orbit
+	SetCameraMode(GetMesh() && GetMesh()->GetSkeletalMeshAsset() ? ENOARCameraMode::ThirdPerson : ENOARCameraMode::FirstPerson);
 }
 
 void ANOARCharacter::ApplySettings()
@@ -144,6 +146,7 @@ void ANOARCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	if (IA_Interact)     EIC->BindAction(IA_Interact, ETriggerEvent::Started, this, &ANOARCharacter::Input_Interact);
 	if (IA_ToggleCamera) EIC->BindAction(IA_ToggleCamera, ETriggerEvent::Started, this, &ANOARCharacter::Input_ToggleCamera);
 	if (IA_Zoom)         EIC->BindAction(IA_Zoom, ETriggerEvent::Triggered, this, &ANOARCharacter::Input_Zoom);
+	if (IA_KeyLook)      EIC->BindAction(IA_KeyLook, ETriggerEvent::Triggered, this, &ANOARCharacter::Input_KeyLook);
 }
 
 // ---------------- input ----------------
@@ -154,7 +157,11 @@ void ANOARCharacter::Input_Move(const FInputActionValue& Value)
 	{
 		return;
 	}
-	bPendingMove = false; // manual input cancels click-to-walk
+	if (bPendingMove)
+	{
+		bPendingMove = false; // manual input cancels click-to-walk
+		if (AController* C = GetController()) C->StopMovement();
+	}
 	const FVector2D Axis = Value.Get<FVector2D>();
 	const FRotator YawRot(0.f, GetControlRotation().Yaw, 0.f);
 	AddMovementInput(FRotationMatrix(YawRot).GetUnitAxis(EAxis::X), Axis.Y);
@@ -298,6 +305,45 @@ void ANOARCharacter::OnMoveToRequested(FVector WorldLocation)
 	MoveToAndInteract(WorldLocation);
 }
 
+void ANOARCharacter::OnWalkToRequested(FVector WorldLocation)
+{
+	if (bInputFrozen)
+	{
+		return;
+	}
+	FVector Dest = WorldLocation;
+	if (UNavigationSystemV1* Nav = UNavigationSystemV1::GetCurrent(GetWorld()))
+	{
+		FNavLocation Projected;
+		if (Nav->ProjectPointToNavigation(Dest, Projected, FVector(60.f, 60.f, 150.f)))
+		{
+			Dest = Projected.Location;
+		}
+	}
+	bPendingMove = false;   // plain walk: nothing to interact with on arrival
+	UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), Dest);
+}
+
+void ANOARCharacter::Input_KeyLook(const FInputActionValue& Value)
+{
+	if (bInputFrozen)
+	{
+		return;
+	}
+	AController* C = GetController();
+	if (!C)
+	{
+		return;
+	}
+	const FVector2D Axis = Value.Get<FVector2D>();
+	const float Dt = GetWorld()->GetDeltaSeconds();
+	const UNOARSettings* S = GetDefault<UNOARSettings>();
+	FRotator R = C->GetControlRotation();
+	R.Yaw += Axis.X * KeyLookRate * Dt;
+	R.Pitch = FMath::Clamp(FRotator::NormalizeAxis(R.Pitch + Axis.Y * KeyLookRate * 0.6f * Dt), S->PitchMin, S->PitchMax);
+	C->SetControlRotation(R);
+}
+
 void ANOARCharacter::MoveToAndInteract(FVector WorldLocation)
 {
 	if (bInputFrozen)
@@ -331,7 +377,7 @@ void ANOARCharacter::SetInputFrozen(bool bFrozen)
 	Interaction->SetEnabled(!bFrozen);
 }
 
-void ANOARCharacter::TeleportTo(const FTransform& Transform)
+void ANOARCharacter::TeleportToTransform(const FTransform& Transform)
 {
 	bPendingMove = false;
 	SetActorLocationAndRotation(Transform.GetLocation(), Transform.GetRotation(), false, nullptr, ETeleportType::TeleportPhysics);

@@ -349,7 +349,7 @@
    "kelvin": 2700,
    "ies": "IES_WallWasher",
    "pos": [
-    150,
+    360,
     45,
     280.94
    ],
@@ -367,7 +367,7 @@
    "kelvin": 2700,
    "ies": "IES_WallWasher",
    "pos": [
-    250,
+    445,
     45,
     280.94
    ],
@@ -385,7 +385,7 @@
    "kelvin": 2700,
    "ies": "IES_WallWasher",
    "pos": [
-    350,
+    530,
     45,
     280.94
    ],
@@ -477,6 +477,474 @@
    "size": [
     451.43000000000006,
     1.0
+   ]
+  },
+  {
+   "name": "L03_LIV_01",
+   "type": "Spot",
+   "group": "LightGroup.Living.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    637,
+    590,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_LIV_02",
+   "type": "Spot",
+   "group": "LightGroup.Living.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    897,
+    590,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_LIV_03",
+   "type": "Spot",
+   "group": "LightGroup.Living.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    637,
+    810,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_LIV_04",
+   "type": "Spot",
+   "group": "LightGroup.Living.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    897,
+    810,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_FOY_01",
+   "type": "Spot",
+   "group": "LightGroup.Foyer.Accent",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    373,
+    690,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_FOY_02",
+   "type": "Spot",
+   "group": "LightGroup.Foyer.Accent",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    373,
+    590,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_HAL_01",
+   "type": "Spot",
+   "group": "LightGroup.Foyer.Accent",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    243,
+    -175,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_HAL_02",
+   "type": "Spot",
+   "group": "LightGroup.Foyer.Accent",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    243,
+    -295,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PBR_01",
+   "type": "Spot",
+   "group": "LightGroup.Primary.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    571,
+    -920,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PBR_02",
+   "type": "Spot",
+   "group": "LightGroup.Primary.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    751,
+    -920,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PBR_03",
+   "type": "Spot",
+   "group": "LightGroup.Primary.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    571,
+    -780,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PBR_04",
+   "type": "Spot",
+   "group": "LightGroup.Primary.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    751,
+    -780,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PEN_01",
+   "type": "Spot",
+   "group": "LightGroup.Ensuite.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    572,
+    -480,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PEN_02",
+   "type": "Spot",
+   "group": "LightGroup.Ensuite.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    692,
+    -480,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_WIC_01",
+   "type": "Spot",
+   "group": "LightGroup.WIC.Cabinet",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    454,
+    -130,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_WIC_02",
+   "type": "Spot",
+   "group": "LightGroup.WIC.Cabinet",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    574,
+    -130,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_GBR_01",
+   "type": "Spot",
+   "group": "LightGroup.Guest.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    -99,
+    -810,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_GBR_02",
+   "type": "Spot",
+   "group": "LightGroup.Guest.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    21,
+    -810,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_GBR_03",
+   "type": "Spot",
+   "group": "LightGroup.Guest.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    -39,
+    -690,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_GEN_01",
+   "type": "Spot",
+   "group": "LightGroup.Guest.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    -95,
+    -400,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_DEN_01",
+   "type": "Spot",
+   "group": "LightGroup.Den.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    210,
+    -810,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_DEN_02",
+   "type": "Spot",
+   "group": "LightGroup.Den.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    330,
+    -810,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_DEN_03",
+   "type": "Spot",
+   "group": "LightGroup.Den.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    270,
+    -690,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_PWD_01",
+   "type": "Spot",
+   "group": "LightGroup.Powder.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    127,
+    -250,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_LAU_01",
+   "type": "Spot",
+   "group": "LightGroup.Foyer.Accent",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    344,
+    -342,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "L03_WCL_01",
+   "type": "Spot",
+   "group": "LightGroup.Ensuite.Ambient",
+   "lumens": 650,
+   "kelvin": 3000,
+   "ies": "IES_Downlight_36deg",
+   "pos": [
+    590,
+    -338,
+    288.56
+   ],
+   "dir": [
+    0,
+    0,
+    -1
    ]
   }
  ]

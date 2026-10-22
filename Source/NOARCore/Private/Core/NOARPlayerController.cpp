@@ -1,6 +1,9 @@
 #include "Core/NOARPlayerController.h"
+#include "UI/NOARHUDWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "Core/NOARGameInstance.h"
 #include "Character/NOARCharacter.h"
+#include "Interaction/NOARInteractionComponent.h"
 #include "Lighting/NOARDayNightManager.h"
 #include "NOARFunctionLibrary.h"
 #include "NOARCore.h"
@@ -15,11 +18,17 @@ ANOARPlayerController::ANOARPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
+	HUDClass = UNOARHUDWidget::StaticClass();
 }
 
 void ANOARPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (HUDClass && IsLocalController())
+	{
+		HUD = CreateWidget<UNOARHUDWidget>(this, HUDClass);
+		if (HUD) HUD->AddToViewport(0);
+	}
 	ApplyInputModeForCamera(ENOARCameraMode::ThirdPerson);
 }
 
@@ -174,10 +183,14 @@ void ANOARPlayerController::Input_PhotoMode(const FInputActionValue&)  { SetPhot
 
 void ANOARPlayerController::Input_DayNight(const FInputActionValue&)
 {
-	for (TActorIterator<ANOARDayNightManager> It(GetWorld()); It; ++It)
+	if (HUD)
+	{
+		RequestPanel(TEXT("Lighting"));
+		return;
+	}
+	if (TActorIterator<ANOARDayNightManager> It(GetWorld()); It)
 	{
 		It->CyclePreset();
-		break;
 	}
 }
 

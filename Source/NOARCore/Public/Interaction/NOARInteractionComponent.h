@@ -46,6 +46,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "NOAR|Interaction")
 	FNOAROnMoveToRequested OnMoveToRequested;
 
+	/** Mouse3P: click on a walkable surface with nothing focused -> walk exactly there */
+	UPROPERTY(BlueprintAssignable, Category = "NOAR|Interaction")
+	FNOAROnMoveToRequested OnWalkToRequested;
+
 	UPROPERTY(BlueprintAssignable, Category = "NOAR|Interaction")
 	FNOAROnInteracted OnInteracted;
 

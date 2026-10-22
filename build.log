@@ -1,0 +1,17 @@
+Setting up bundled DotNet SDK
+/Users/Shared/Epic Games/UE_5.8/Engine/Binaries/ThirdParty/DotNet/10.0/mac-arm64
+Running dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll NOAREditor Mac Development -Project=/Users/arturgl/Desktop/unreal engen 5/UE5/NOAR.uproject -WaitMutex
+Log file: /Users/arturgl/Library/Application Support/Epic/UnrealBuildTool/Log.txt
+Determining max actions to execute in parallel (10 physical cores, 10 logical cores)
+  Executing up to 10 processes, one per physical core
+Using 'git status' to determine working set for adaptive non-unity build (/Users/arturgl/Desktop/unreal engen 5/UE5).
+Creating makefile for NOAREditor (no existing makefile)
+UbaServer - Listening on 0.0.0.0:1345
+Compiling with Mac SDK 27.0, minimum Target OS version 14.00
+UHT compiled-in object format Default
+/Users/arturgl/Desktop/unreal engen 5/UE5/Source/NOARCore/Public/NOARTypes.h(92): Warning: 'ENOARQualityTier' does not have a 0 entry! (This is a problem when the enum is initialized by default)
+Unhandled 1 aggregate exceptions
+
+Result: Failed (OtherCompilationError)
+Total execution time: 4.56 seconds
+Trace written to file /Users/arturgl/Library/Application Support/Epic/UnrealBuildTool/Trace.uba with size 2.2kb

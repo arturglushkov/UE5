@@ -40,9 +40,12 @@ def import_finish_options(dest_folder: str, csv_path: str, table_name: str = "DT
         lines.append(",".join(vals))
     csv_text = "\n".join(lines)
 
-    problems = unreal.DataTableFunctionLibrary.fill_data_table_from_csv_string(table, csv_text)
-    for p in problems:
-        unreal.log_warning(f"[NOAR] {table_name}: {p}")
+    result = unreal.DataTableFunctionLibrary.fill_data_table_from_csv_string(table, csv_text)
+    if result is False:
+        unreal.log_warning(f"[NOAR] {table_name}: CSV import reported problems (see Output Log)")
+    elif isinstance(result, (list, tuple)):
+        for p in result:
+            unreal.log_warning(f"[NOAR] {table_name}: {p}")
     unreal.EditorAssetLibrary.save_asset(table_path)
     unreal.log(f"[NOAR] {table_name}: {len(rows)} rows imported")
     return table

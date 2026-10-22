@@ -48,7 +48,7 @@ void ANOARGameMode::BeginPlay()
 AActor* ANOARGameMode::ChoosePlayerStart_Implementation(AController* Player)
 {
 	// Spawn at the apartment start transform (private vestibule) unless a PlayerStart is placed explicitly
-	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
+	if (TActorIterator<APlayerStart> It(GetWorld()); It)
 	{
 		return *It;
 	}
@@ -64,7 +64,7 @@ AActor* ANOARGameMode::ChoosePlayerStart_Implementation(AController* Player)
 
 ANOARDayNightManager* ANOARGameMode::GetDayNightManager() const
 {
-	for (TActorIterator<ANOARDayNightManager> It(GetWorld()); It; ++It)
+	if (TActorIterator<ANOARDayNightManager> It(GetWorld()); It)
 	{
 		return *It;
 	}
