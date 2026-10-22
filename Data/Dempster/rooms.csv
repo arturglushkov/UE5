@@ -1,0 +1,14 @@
+RoomID,DisplayName_EN,DisplayName_RU,ZoneTag,RoomCode,Size_ft,CeilingHeight,RecommendedCamera,Order
+foyer,Foyer,Прихожая,Zone.Foyer,FOY,"private vestibule",9'-7\",ThirdPerson,1
+kitchen,Kitchen,Кухня,Zone.Kitchen,KIT,"13'-8\" x 11'-10\"",8'-6\" dropped,ThirdPerson,2
+dining,Dining room,Столовая,Zone.Dining,DIN,"16'-4\" x 11'-1\"",9'-3\" dropped,ThirdPerson,3
+living,Living room,Гостиная,Zone.Living,LIV,"16'-7\" x 16'-11\"",9'-6\",ThirdPerson,4
+primary,Primary bedroom,Главная спальня,Zone.Primary,PBR,"12' x 14'",9'-7\",ThirdPerson,5
+wic,Walk-in closet,Гардеробная,Zone.WIC,WIC,"9'-10\"",8'-10\" dropped,FirstPerson,6
+ensuite,Primary ensuite,Главная ванная,Zone.Ensuite,PEN,"9'-11\" x 12'-4\"",8'-6\" dropped,FirstPerson,7
+guest,Guest bedroom,Гостевая спальня,Zone.Guest,GBR,"11' x 11'",9'-7\",ThirdPerson,8
+guest_ensuite,Guest ensuite,Гостевая ванная,Zone.Guest,GEN,,8'-6\" dropped,FirstPerson,9
+den,Den / study,Кабинет,Zone.Den,DEN,"11' x 11'",9'-7\",ThirdPerson,10
+powder,Powder room,Гостевой санузел,Zone.Powder,PWD,,8'-6\" dropped,FirstPerson,11
+laundry,Laundry closet,Прачечная,Zone.Laundry,LAU,,8'-6\" dropped,FirstPerson,12
+balcony,Balcony,Терраса,Zone.Balcony,BAL,"52'-9\" x 13'-9\"",9'-10\",ThirdPerson,13

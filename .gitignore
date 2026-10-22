@@ -1,0 +1,45 @@
+# Unreal Engine generated / cache
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+Plugins/**/Binaries/
+Plugins/**/Intermediate/
+.vs/
+.vscode/
+.idea/
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+*.code-workspace
+Makefile
+CMakeLists.txt
+.ue4dependencies
+.uedependencies
+
+# Content is in Perforce. Uncomment the next line only if you deliberately keep uassets in Git LFS.
+# !Content/
+
+# Source assets (FBX, PSD, HDRI, slab scans) live in //NOAR_Source, not here
+*.fbx
+*.FBX
+*.psd
+*.exr
+*.hdr
+*.max
+*.blend
+*.skp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc

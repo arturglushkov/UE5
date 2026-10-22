@@ -1,0 +1,16 @@
+DoorID,Location,Type,Height_in,Width_in,Material,Hardware,Mechanism,OpenAngle,Locked,Notes
+D.01,Entry from shared hallway,Swing,96,36,By architect,By architect,HingedDoor,90,True,Entry - start point; stained to match M01 if builder confirms
+D.02,Private vestibule,Double swing,96,68,By architect,By architect,HingedDoor,90,False,Two leaves; two BP_InteractiveDoor actors with one trigger
+D.03,Mechanical room,Double swing,96,60,Wood (stained) with ventilation grills,HW01,HingedDoor,90,True,Locked
+D.04,Powder room,Swing,90,34,Wood (stained) with ventilation grills,HW01,HingedDoor,90,False,
+D.05,Laundry closet,Double swing,90,84,Wood (stained) with ventilation grills,HW01,HingedDoor,90,False,Washer/dryer behind
+D.06,Guest bedroom,Swing,90,34,Wood (stained) with ventilation grills,HW01,HingedDoor,90,False,
+D.07,Hallway closet,Swing,90,34,Wood (stained) with ventilation grills,HW01,HingedDoor,90,False,
+D.08,Den,Swing,96,30,Mini ribbed obscured glass in matte black metal frame (MT02) or PDLC,As per glass fabricator,HingedDoor,90,False,GL04 material with PDLC toggle
+D.09,Primary bedroom,Swing,90,34,Wood (stained) with ventilation grills,HW01,HingedDoor,90,False,
+D.10,Primary ensuite,Pocket,90,32,Wood (stained),HW04,Pocket,0,False,Translation into wall pocket
+D.11,Primary ensuite wash closet,Swing,90,34,Wood (stained),HW01,HingedDoor,90,False,
+D.12,Primary walk-in closet,Pocket,90,32,Wood (stained),HW04,Pocket,0,False,
+D.13,Guest ensuite,Swing,90,34,Wood (stained),HW01,HingedDoor,90,False,
+D.14,Guest bedroom closet,Double sliding,96,70,Wood (stained),HW04,Sliding,0,False,Two leaves on one track
+D.15,Mechanical room,Swing,90,36,By architect,By architect,HingedDoor,90,True,Locked

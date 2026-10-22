@@ -1,0 +1,25 @@
+RowName,Slot,OptionID,DisplayName,SpecCode,Material,Thumbnail,bIsDefault,Manufacturer,SKU,Price,PriceUnit,Description
+KIT_CAB_EXISTING,Configurable.CabinetFinish.Kitchen,kit_cab_existing,Existing white,EXISTING,/Game/Apartments/DEMPSTER/Materials/MI_Kitchen_ExistingWhite.MI_Kitchen_ExistingWhite,,True,,,0,,Existing white flat-panel cabinetry retained
+KIT_CAB_LAM01,Configurable.CabinetFinish.Kitchen,kit_cab_lam01,Light grey soft touch,LAM01,/Game/NOAR/Materials/Library/Laminate/MI_LAM01_LightGrey.MI_LAM01_LightGrey,,False,Deccotec,AGT 729,0,,Soft-touch laminate
+KIT_CAB_M01,Configurable.CabinetFinish.Kitchen,kit_cab_m01,Rift sawn white oak,M01,/Game/NOAR/Materials/Library/Wood/MI_Oak_RiftSawn_M01.MI_Oak_RiftSawn_M01,,False,,,0,,Vertical grain veneer stained to match LAM04
+KIT_CAB_LAM02,Configurable.CabinetFinish.Kitchen,kit_cab_lam02,Cashmere gold,LAM02,/Game/NOAR/Materials/Library/Laminate/MI_LAM02_CashmereGold.MI_LAM02_CashmereGold,,False,Deccotec,AGT 384,0,,Metallic bronze laminate
+KIT_TOP_SS01,Configurable.Countertop.Kitchen,kit_top_ss01,Neolith Estatuario,SS01,/Game/NOAR/Materials/Library/Stone/MI_SS01_Estatuario.MI_SS01_Estatuario,,True,Neolith,Estatuario Ultra Soft 2cm,0,,Sintered stone slab 63x126 silk finish
+KIT_TOP_SS02,Configurable.Countertop.Kitchen,kit_top_ss02,Iconic Cipollino,SS02,/Game/NOAR/Materials/Library/Stone/MI_SS02_Cipollino.MI_SS02_Cipollino,,False,Infinity,MB25,0,,Blue-grey porcelain slab polished
+KIT_TOP_QUARTZ,Configurable.Countertop.Kitchen,kit_top_quartz,White quartz,ALT,/Game/NOAR/Materials/Library/Stone/MI_Quartz_White.MI_Quartz_White,,False,,,0,,Alternative
+KIT_TOP_PORC,Configurable.Countertop.Kitchen,kit_top_porc,Grey porcelain,ALT,/Game/NOAR/Materials/Library/Stone/MI_Porcelain_Grey.MI_Porcelain_Grey,,False,,,0,,Alternative
+LIV_PANEL_M01,Configurable.WallPanel.Living,liv_panel_m01,Rift oak stained,M01,/Game/NOAR/Materials/Library/Wood/MI_Oak_RiftSawn_M01.MI_Oak_RiftSawn_M01,,True,,,0,,
+LIV_PANEL_OAK_NAT,Configurable.WallPanel.Living,liv_panel_oak_nat,Natural light oak,ALT,/Game/NOAR/Materials/Library/Wood/MI_Oak_Natural.MI_Oak_Natural,,False,,,0,,
+LIV_PANEL_WALNUT,Configurable.WallPanel.Living,liv_panel_walnut,Walnut,ALT,/Game/NOAR/Materials/Library/Wood/MI_Walnut.MI_Walnut,,False,,,0,,
+DIN_PANEL_M01,Configurable.WallPanel.Dining,din_panel_m01,Rift oak stained,M01,/Game/NOAR/Materials/Library/Wood/MI_Oak_RiftSawn_M01.MI_Oak_RiftSawn_M01,,True,,,0,,
+DIN_PANEL_OAK_NAT,Configurable.WallPanel.Dining,din_panel_oak_nat,Natural light oak,ALT,/Game/NOAR/Materials/Library/Wood/MI_Oak_Natural.MI_Oak_Natural,,False,,,0,,
+FLOOR_TL01,Configurable.Floor.All,floor_tl01,Existing tile,TL01,/Game/Apartments/DEMPSTER/Materials/MI_Floor_ExistingTile.MI_Floor_ExistingTile,,True,,,0,,Existing neutral matte tile
+FLOOR_OAK,Configurable.Floor.All,floor_oak,Light oak plank,ALT,/Game/NOAR/Materials/Library/Wood/MI_Floor_OakPlank.MI_Floor_OakPlank,,False,,,0,,
+FLOOR_LIME,Configurable.Floor.All,floor_lime,Limestone,ALT,/Game/NOAR/Materials/Library/Stone/MI_Floor_Limestone.MI_Floor_Limestone,,False,,,0,,
+DIN_STONE_SS02,Configurable.FeatureStone.Dining,din_stone_ss02,Iconic Cipollino,SS02,/Game/NOAR/Materials/Library/Stone/MI_SS02_Cipollino.MI_SS02_Cipollino,,True,Infinity,MB25,0,,
+DIN_STONE_SS01,Configurable.FeatureStone.Dining,din_stone_ss01,Neolith Estatuario,SS01,/Game/NOAR/Materials/Library/Stone/MI_SS01_Estatuario.MI_SS01_Estatuario,,False,Neolith,,0,,
+LIV_FAB_FB01,Configurable.Fabric.Living,liv_fab_fb01,Midori ivory,FB01,/Game/NOAR/Materials/Library/Fabric/MI_FB01_MidoriIvory.MI_FB01_MidoriIvory,,True,Kravet,F1068/22-CAC,0,,
+LIV_FAB_BOUCLE,Configurable.Fabric.Living,liv_fab_boucle,Taupe boucle,ALT,/Game/NOAR/Materials/Library/Fabric/MI_Boucle_Taupe.MI_Boucle_Taupe,,False,,,0,,
+LIV_FAB_BLUE,Configurable.Fabric.Living,liv_fab_blue,Ocean blue,ALT,/Game/NOAR/Materials/Library/Fabric/MI_Velvet_Blue.MI_Velvet_Blue,,False,,,0,,Precedent image chair colour
+PAINT_PT01,Configurable.Paint.Walls,paint_pt01,White Dove,PT01,/Game/NOAR/Materials/Library/Paint/MI_PT01_WhiteDove.MI_PT01_WhiteDove,,True,Benjamin Moore,OC-17,0,,
+PAINT_PT05,Configurable.Paint.Walls,paint_pt05,Limewash Moth,PT05,/Game/NOAR/Materials/Library/Paint/MI_PT05_LimewashMoth.MI_PT05_LimewashMoth,,False,Bauwerk,Moth,0,,
+PAINT_WARMGREY,Configurable.Paint.Walls,paint_warmgrey,Warm grey,ALT,/Game/NOAR/Materials/Library/Paint/MI_Paint_WarmGrey.MI_Paint_WarmGrey,,False,,,0,,

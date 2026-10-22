@@ -1,0 +1,16 @@
+FixtureID,Location,Description,UEType,Lumens,Kelvin,IES,LightGroupTag,CastShadows,Notes
+L01,Existing can lighting throughout,Existing recessed square pot lights,SpotLight,700,3000,IES_Downlight_36deg,LightGroup.<Zone>.Ambient,True,Only the 8 nearest to camera cast shadows (Max Draw Distance 1200)
+L02,Undercabinet & perimeter cove,LED tape 4.8W/m 3000K 24V 160lm/ft in aluminum channel with opal lens,RectLight+Emissive,630 per 120cm,3000,,LightGroup.<Zone>.Undercab / .Cove,Undercab only,One Rect per 120 cm; emissive strip ~3000 nit
+L03,New can lighting throughout,To match existing,SpotLight,700,3000,IES_Downlight_36deg,LightGroup.<Zone>.Ambient,True,
+L04,Foyer,Wall sconce (precedent: vertical rod with twin opal shades),PointLight+Emissive,400,2700,,LightGroup.Foyer.Sconce,True,TBD fixture
+L05,Living room,Cloud pendant cluster (precedent),PointLight+Emissive,2500,2700,,LightGroup.Living.Pendant,True,Source radius 15cm; main shadow on sofa
+L06,Kitchen & hallway,TBD,SpotLight,500,3000,IES_Spot_24deg,LightGroup.Kitchen.Accent,False,
+L07,Dining room,Ring chandelier over table (precedent),PointLight+Emissive,2000,2700,,LightGroup.Dining.Pendant,True,Main shadow on table
+L08,Powder room,TBD,PointLight,400,2700,,LightGroup.Powder.Ambient,True,
+L09,Primary bedroom wall,Wall light,PointLight+Emissive,400,2700,,LightGroup.Primary.Wall,True,
+L10,Primary bedroom ceiling,TBD,SpotLight,600,2700,,LightGroup.Primary.Ambient,True,Limewash ceiling PT04 catches it
+L11,Primary ensuite ceiling,TBD,SpotLight,600,3000,,LightGroup.Ensuite.Ambient,True,
+L12,Guest bedroom wall,Wall light,PointLight+Emissive,400,2700,,LightGroup.Guest.Wall,True,
+L13,Guest bedroom ceiling,TBD,SpotLight,600,2700,,LightGroup.Guest.Ambient,True,
+L14,Primary bedroom headboard,Headboard light,RectLight+Emissive,300,2700,,LightGroup.Primary.Wall,False,
+L15,Guest ensuite wall,TBD,PointLight,400,3000,,LightGroup.Guest.Wall,True,

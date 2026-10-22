@@ -1,0 +1,46 @@
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+// Native tags mirror Config/DefaultGameplayTags.ini so C++ and Blueprint agree at compile time.
+// Zones and light groups for a given apartment stay config-only (they differ per apartment).
+
+namespace NOARTags
+{
+	// Interaction state
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_State_Closed);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_State_Opening);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_State_Open);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_State_Closing);
+
+	// Deny reasons
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Lock_Locked);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Lock_Dependency);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Lock_Blocked);
+
+	// Mechanism types
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Door);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Drawer);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Flap);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Slide);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Pocket);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Switch);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Appliance);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Interact_Type_Configurable);
+
+	// Roots used with MatchesTag
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Zone);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(LightGroup);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Configurable);
+
+	// Camera / input / lighting
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Camera_ThirdPerson);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Camera_FirstPerson);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Camera_Photo);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_Mouse3P);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_FirstPerson);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_Gamepad);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Lighting_Preset_Day);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Lighting_Preset_Evening);
+	NOARCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Lighting_Preset_Night);
+}

@@ -1,0 +1,45 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.8",
+	"Category": "Architectural Visualization",
+	"Description": "NOAR Digital Apartment - premium interactive digital twin (UE 5.8)",
+	"Modules": [
+		{
+			"Name": "NOARCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"GameplayTags"
+			]
+		}
+	],
+	"Plugins": [
+		{ "Name": "ModelingToolsEditorMode", "Enabled": true, "TargetAllowList": [ "Editor" ] },
+		{ "Name": "DatasmithImporter", "Enabled": true },
+		{ "Name": "DatasmithContent", "Enabled": true },
+		{ "Name": "EnhancedInput", "Enabled": true },
+		{ "Name": "GameplayTagsEditor", "Enabled": true },
+		{ "Name": "CommonUI", "Enabled": true },
+		{ "Name": "ControlRig", "Enabled": true },
+		{ "Name": "MovieRenderPipelineCore", "Enabled": true },
+		{ "Name": "MovieRenderPipelineEditor", "Enabled": true },
+		{ "Name": "MovieRenderPipelineRenderPasses", "Enabled": true },
+		{ "Name": "MovieRenderPipelineMovies", "Enabled": true },
+		{ "Name": "PythonScriptPlugin", "Enabled": true },
+		{ "Name": "EditorScriptingUtilities", "Enabled": true },
+		{ "Name": "MetaSound", "Enabled": true },
+		{ "Name": "PixelStreaming", "Enabled": true, "PlatformAllowList": [ "Win64", "Linux" ] },
+		{ "Name": "GameplayAbilities", "Enabled": false },
+		{ "Name": "Water", "Enabled": false },
+		{ "Name": "ChaosCloth", "Enabled": false },
+		{ "Name": "Landscape", "Enabled": false },
+		{ "Name": "Paper2D", "Enabled": false },
+		{ "Name": "OpenXR", "Enabled": false },
+		{ "Name": "OculusXR", "Enabled": false }
+	],
+	"TargetPlatforms": [
+		"Mac",
+		"Windows"
+	]
+}
